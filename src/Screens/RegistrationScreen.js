@@ -1,94 +1,122 @@
+import { useState } from "react";
 import {
-  Text,
-  View,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
   ImageBackground,
-  TextInput,
-  TouchableOpacity,
+  View,
+  Pressable,
   Image,
+  Text,
+  TextInput,
   StyleSheet,
+  Platform,
+  Keyboard,
 } from "react-native";
 
+const initialState = {
+  avatar: "",
+  email: "",
+  password: "",
+};
+
 export default function RegistrationScreen() {
+  console.log("start");
+  const [keyboardStatus, setKeyboardStatus] = useState("false");
+
+  const keyboardHide = () => {
+    console.log("keyboardHide");
+    setKeyboardStatus(false);
+    Keyboard.dismiss();
+  };
+
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        style={styles.bgImage}
-        source={require("../../assets/img/Photo-BG.jpg")}
-      >
-        <View style={styles.form}>
-          <View style={styles.avatar}>
-            <TouchableOpacity activeOpacity={0.8} style={styles.addButton}>
-              <Image
-                style={styles.addButtonIcon}
-                source={require("../../assets/img/add.svg")}
-              />
-            </TouchableOpacity>
-          </View>
+    <ImageBackground
+      style={styles.bgImage}
+      source={require("../../assets/img/Photo-BG.jpg")}
+    >
+      <TouchableWithoutFeedback onPress={keyboardHide}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={styles.formContainer}>
+            <View style={styles.form}>
+              <View style={styles.avatar}>
+                <Pressable style={styles.addButton}>
+                  <Image
+                    style={styles.addButtonIcon}
+                    source={require("../../assets/img/add.png")}
+                  />
+                </Pressable>
+              </View>
 
-          <Text style={styles.formTitle}>Реєстрація</Text>
+              <Text style={styles.formTitle}>Реєстрація</Text>
 
-          <View style={styles.inputsWrapper}>
-            <TextInput
-              style={styles.input}
-              // onChangeText={ }
-              // value={ }
-              placeholder="Логін"
-            />
-            <TextInput
-              style={styles.input}
-              // onChangeText={ }
-              // value={ }
-              placeholder="Адреса електронної пошти"
-            />
-            <View style={styles.passwordWrapper}>
               <TextInput
                 style={styles.input}
                 // onChangeText={ }
                 // value={ }
-                placeholder="Пароль"
+                placeholder="Логін"
+                onFocus={() => setKeyboardStatus(true)}
               />
-              <Text style={styles.showPasswordBtn}>Показать</Text>
+              <TextInput
+                style={styles.input}
+                // onChangeText={ }
+                // value={ }
+                placeholder="Адреса електронної пошти"
+                onFocus={() => setKeyboardStatus(true)}
+              />
+              <View style={styles.passwordWrapper}>
+                <TextInput
+                  style={styles.input}
+                  // onChangeText={ }
+                  // value={ }
+                  placeholder="Пароль"
+                  secureTextEntry={true}
+                  onFocus={() => setKeyboardStatus(true)}
+                />
+                <Pressable style={styles.showPasswordBtn}>
+                  <Text style={styles.showPasswordBtnText}>Показати</Text>
+                </Pressable>
+              </View>
+
+              <Pressable style={styles.regButton}>
+                <Text style={styles.regBtnTitle}>Зареєструватись</Text>
+              </Pressable>
+
+              <Pressable>
+                <Text style={styles.redirectLink}>Вже є акаунт? Увійти</Text>
+              </Pressable>
             </View>
           </View>
-
-          <TouchableOpacity activeOpacity={0.8} style={styles.regButton}>
-            <Text style={styles.regBtnTitle}>Зареєструватись</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity activeOpacity={0.8}>
-            <Text style={styles.redirectLink}>Уже есть аккаунт? Войти</Text>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
-    </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
   bgImage: {
     flex: 1,
     resizeMode: "cover",
+    alignItems: "center",
     justifyContent: "flex-end",
   },
-  form: {
-    position: "relative",
-    paddingTop: 92,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 76,
-    backgroundColor: "#FFFFFF",
+  formContainer: {
+    maxWidth: 375,
+    maxHeight: 550,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+    backgroundColor: "#FFFFFF",
+  },
+  form: {
+    alignItems: "center",
+    marginTop: 92,
+    marginHorizontal: 16,
+    marginBottom: 78,
   },
   avatar: {
     position: "absolute",
-    left: "50%",
-    transform: "translate(-50%)",
-    top: -60,
+    top: -152,
     width: 120,
     height: 120,
     backgroundColor: "#F6F6F6",
@@ -96,8 +124,8 @@ const styles = StyleSheet.create({
   },
   addButton: {
     position: "absolute",
-    top: 81,
-    right: -12,
+    bottom: 14,
+    right: -12.5,
   },
   addButtonIcon: {
     width: 25,
@@ -105,51 +133,59 @@ const styles = StyleSheet.create({
   },
   formTitle: {
     marginBottom: 32,
-    fontWeight: 600,
     fontSize: 30,
-    lineHeight: "1.67",
+    lineHeight: 35,
     textAlign: "center",
   },
-  inputsWrapper: {
-    marginBottom: 42,
-    display: "flex",
-    gap: 16,
-  },
   input: {
-    padding: 16,
-    height: 44,
+    paddingHorizontal: 16,
+    width: 343,
+    height: 50,
     backgroundColor: "#f6f6f6",
     border: "1px solid #e8e8e8",
     borderRadius: 8,
     fontSize: 16,
+    marginBottom: 16,
   },
   passwordWrapper: {
-    position: "relative",
-    marginBottom: 0,
+    marginBottom: 42,
   },
   showPasswordBtn: {
     position: "absolute",
     right: 16,
-    top: "50%",
-    transform: "translateY(-50%)",
+    top: 14,
+  },
+  showPasswordBtnText: {
     fontSize: 16,
     color: "#1B4371",
     textAlign: "right",
   },
   regButton: {
-    display: "flex",
     justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 32,
+    marginHorizontal: 16,
     marginBottom: 16,
     height: 51,
-    backgroundColor: "#FF6C00",
+    width: 343,
+    ...Platform.select({
+      ios: {
+        backgroundColor: "transparent",
+        borderColor: "#FF6C00",
+      },
+      android: {
+        backgroundColor: "#FF6C00",
+        borderColor: "transparent",
+      },
+    }),
+
     borderRadius: 100,
   },
   regBtnTitle: {
     fontSize: 16,
-    textAlign: "center",
-    color: "#ffffff",
+    // color: Platform.OS === "ios" ? "#FF6C00" : "#FFFFFF",
+    color: "#1B4371",
   },
   redirectLink: {
     fontSize: 16,
