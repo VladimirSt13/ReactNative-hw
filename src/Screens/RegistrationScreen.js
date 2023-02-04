@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
@@ -15,19 +15,40 @@ import {
 
 const initialState = {
   avatar: "",
+  login: "",
   email: "",
   password: "",
 };
 
 export default function RegistrationScreen() {
-  console.log("start");
+  const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState("false");
+  const [showPassword, setShowPassword] = useState(true);
 
   const keyboardHide = () => {
-    console.log("keyboardHide");
     setKeyboardStatus(false);
     Keyboard.dismiss();
   };
+
+  const changePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleUser = (field, value) =>
+    setUser((prevState) => ({
+      ...prevState,
+      [field]: value,
+    }));
+
+  useEffect(() => {
+    console.log("start", Platform.OS);
+
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    return () => {};
+  }, [keyboardStatus]);
 
   return (
     <ImageBackground
@@ -36,10 +57,15 @@ export default function RegistrationScreen() {
     >
       <TouchableWithoutFeedback onPress={keyboardHide}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        // behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <View style={styles.formContainer}>
-            <View style={styles.form}>
+            <View
+              style={{
+                ...styles.form,
+                marginBottom: keyboardStatus ? 15 : 78,
+              }}
+            >
               <View style={styles.avatar}>
                 <Pressable style={styles.addButton}>
                   <Image
@@ -49,43 +75,62 @@ export default function RegistrationScreen() {
                 </Pressable>
               </View>
 
-              <Text style={styles.formTitle}>Реєстрація</Text>
+              <Text
+                style={{
+                  ...styles.formTitle,
+                  marginBottom: keyboardStatus ? 15 : 32,
+                }}
+              >
+                Реєстрація
+              </Text>
 
               <TextInput
                 style={styles.input}
-                // onChangeText={ }
-                // value={ }
+                value={user.login}
+                onChangeText={(value) => handleUser("login", value)}
                 placeholder="Логін"
                 onFocus={() => setKeyboardStatus(true)}
               />
+              
               <TextInput
                 style={styles.input}
-                // onChangeText={ }
-                // value={ }
+                value={user.email}
+                onChangeText={(value) => handleUser("email", value)}
                 placeholder="Адреса електронної пошти"
                 onFocus={() => setKeyboardStatus(true)}
               />
-              <View style={styles.passwordWrapper}>
+
+              <View style={{ marginBottom: keyboardStatus ? 15 : 42 }}>
                 <TextInput
                   style={styles.input}
-                  // onChangeText={ }
-                  // value={ }
+                  value={user.password}
+                  onChangeText={(value) => handleUser("password", value)}
                   placeholder="Пароль"
-                  secureTextEntry={true}
+                  secureTextEntry={showPassword}
                   onFocus={() => setKeyboardStatus(true)}
                 />
-                <Pressable style={styles.showPasswordBtn}>
+                <Pressable
+                  style={styles.showPasswordBtn}
+                  onPress={changePasswordVisibility}
+                >
                   <Text style={styles.showPasswordBtnText}>Показати</Text>
                 </Pressable>
               </View>
 
-              <Pressable style={styles.regButton}>
+              <Pressable
+                style={styles.regButton}
+                onPress={() => {
+                  keyboardHide();
+                  console.log(user);
+                }}
+              >
                 <Text style={styles.regBtnTitle}>Зареєструватись</Text>
               </Pressable>
-
-              <Pressable>
-                <Text style={styles.redirectLink}>Вже є акаунт? Увійти</Text>
-              </Pressable>
+              {!keyboardStatus && (
+                <Pressable>
+                  <Text style={styles.redirectLink}>Вже є акаунт? Увійти</Text>
+                </Pressable>
+              )}
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -112,7 +157,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 92,
     marginHorizontal: 16,
-    marginBottom: 78,
   },
   avatar: {
     position: "absolute",
@@ -132,7 +176,6 @@ const styles = StyleSheet.create({
     height: 25,
   },
   formTitle: {
-    marginBottom: 32,
     fontSize: 30,
     lineHeight: 35,
     textAlign: "center",
@@ -146,9 +189,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     fontSize: 16,
     marginBottom: 16,
-  },
-  passwordWrapper: {
-    marginBottom: 42,
   },
   showPasswordBtn: {
     position: "absolute",
@@ -164,7 +204,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 16,
-    paddingVertical: 32,
     marginHorizontal: 16,
     marginBottom: 16,
     height: 51,
@@ -184,8 +223,7 @@ const styles = StyleSheet.create({
   },
   regBtnTitle: {
     fontSize: 16,
-    // color: Platform.OS === "ios" ? "#FF6C00" : "#FFFFFF",
-    color: "#1B4371",
+    color: Platform.OS === "ios" ? "#FF6C00" : "#FFFFFF",
   },
   redirectLink: {
     fontSize: 16,
