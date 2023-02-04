@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Platform,
   Keyboard,
+  Alert,
 } from "react-native";
 
 const initialState = {
@@ -122,6 +123,7 @@ export default function RegistrationScreen() {
                 onPress={() => {
                   keyboardHide();
                   console.log(user);
+                  Alert.alert('Ви зареєстровані')
                 }}
               >
                 <Text style={styles.regBtnTitle}>Зареєструватись</Text>

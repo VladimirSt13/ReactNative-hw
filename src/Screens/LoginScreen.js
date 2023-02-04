@@ -102,6 +102,7 @@ export default function RegistrationScreen() {
                 onPress={() => {
                   keyboardHide();
                   console.log(user);
+                  Alert.alert("Ви авторизовані");
                 }}
               >
                 <Text style={styles.regBtnTitle}>Увійти</Text>
