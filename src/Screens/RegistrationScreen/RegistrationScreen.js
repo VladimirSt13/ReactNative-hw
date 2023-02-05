@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  ImageBackground,
   View,
   Pressable,
   Image,
@@ -14,6 +13,13 @@ import {
   Alert,
 } from "react-native";
 
+import photoBG from "../../img/Photo-BG.jpg";
+import { FormContaner, Form } from "./RegistrationScreen.styled";
+import { Wallpaper } from "./../../Components/Wallpaper/Wallpaper";
+import { Avatar } from "../../Components/Avatar/Avatar";
+import { Title } from "./../../Components/Title/Title";
+import { Input } from "../../Components/Input/Input";
+
 const initialState = {
   avatar: "",
   login: "",
@@ -24,15 +30,10 @@ const initialState = {
 export default function RegistrationScreen() {
   const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState("false");
-  const [showPassword, setShowPassword] = useState(true);
 
   const keyboardHide = () => {
     setKeyboardStatus(false);
     Keyboard.dismiss();
-  };
-
-  const changePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   const handleUser = (field, value) =>
@@ -52,56 +53,43 @@ export default function RegistrationScreen() {
   }, [keyboardStatus]);
 
   return (
-    <ImageBackground
-      style={styles.bgImage}
-      source={require("../../assets/img/Photo-BG.jpg")}
-    >
+    <Wallpaper image={photoBG}>
       <TouchableWithoutFeedback onPress={keyboardHide}>
         <KeyboardAvoidingView
         // behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <View style={styles.formContainer}>
-            <View
-              style={{
-                ...styles.form,
-                marginBottom: keyboardStatus ? 15 : 78,
-              }}
-            >
-              <View style={styles.avatar}>
-                <Pressable style={styles.addButton}>
-                  <Image
-                    style={styles.addButtonIcon}
-                    source={require("../../assets/img/add.png")}
-                  />
-                </Pressable>
-              </View>
+          <FormContaner>
+            <Form>
+              <Avatar />
 
-              <Text
-                style={{
-                  ...styles.formTitle,
-                  marginBottom: keyboardStatus ? 15 : 32,
-                }}
-              >
-                Реєстрація
-              </Text>
+              <Title keyboardStatus={keyboardStatus}>Реєстрація</Title>
 
-              <TextInput
-                style={styles.input}
+              <Input
                 value={user.login}
-                onChangeText={(value) => handleUser("login", value)}
+                fieldName="login"
                 placeholder="Логін"
-                onFocus={() => setKeyboardStatus(true)}
-              />
-              
-              <TextInput
-                style={styles.input}
-                value={user.email}
-                onChangeText={(value) => handleUser("email", value)}
-                placeholder="Адреса електронної пошти"
-                onFocus={() => setKeyboardStatus(true)}
+                handleUser={handleUser}
+                setKeyboardStatus={setKeyboardStatus}
               />
 
-              <View style={{ marginBottom: keyboardStatus ? 15 : 42 }}>
+              <Input
+                value={user.email}
+                fieldName="email"
+                placeholder="Адреса електронної пошти"
+                handleUser={handleUser}
+                setKeyboardStatus={setKeyboardStatus}
+              />
+
+              <Input
+                value={user.password}
+                fieldName="password"
+                placeholder="Пароль"
+                handleUser={handleUser}
+                setKeyboardStatus={setKeyboardStatus}
+                isPassword={true}
+              />
+
+              {/* <View style={{ marginBottom: keyboardStatus ? 15 : 42 }}>
                 <TextInput
                   style={styles.input}
                   value={user.password}
@@ -116,14 +104,14 @@ export default function RegistrationScreen() {
                 >
                   <Text style={styles.showPasswordBtnText}>Показати</Text>
                 </Pressable>
-              </View>
+              </View> */}
 
               <Pressable
                 style={styles.regButton}
                 onPress={() => {
                   keyboardHide();
                   console.log(user);
-                  Alert.alert('Ви зареєстровані')
+                  Alert.alert("Ви зареєстровані");
                 }}
               >
                 <Text style={styles.regBtnTitle}>Зареєструватись</Text>
@@ -133,65 +121,15 @@ export default function RegistrationScreen() {
                   <Text style={styles.redirectLink}>Вже є акаунт? Увійти</Text>
                 </Pressable>
               )}
-            </View>
-          </View>
+            </Form>
+          </FormContaner>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
-    </ImageBackground>
+    </Wallpaper>
   );
 }
 
 const styles = StyleSheet.create({
-  bgImage: {
-    flex: 1,
-    resizeMode: "cover",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  formContainer: {
-    maxWidth: 375,
-    maxHeight: 550,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    backgroundColor: "#FFFFFF",
-  },
-  form: {
-    alignItems: "center",
-    marginTop: 92,
-    marginHorizontal: 16,
-  },
-  avatar: {
-    position: "absolute",
-    top: -152,
-    width: 120,
-    height: 120,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
-  },
-  addButton: {
-    position: "absolute",
-    bottom: 14,
-    right: -12.5,
-  },
-  addButtonIcon: {
-    width: 25,
-    height: 25,
-  },
-  formTitle: {
-    fontSize: 30,
-    lineHeight: 35,
-    textAlign: "center",
-  },
-  input: {
-    paddingHorizontal: 16,
-    width: 343,
-    height: 50,
-    backgroundColor: "#f6f6f6",
-    border: "1px solid #e8e8e8",
-    borderRadius: 8,
-    fontSize: 16,
-    marginBottom: 16,
-  },
   showPasswordBtn: {
     position: "absolute",
     right: 16,
@@ -206,10 +144,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 16,
-    marginHorizontal: 16,
-    marginBottom: 16,
+    // marginBottom: 16,
     height: 51,
-    width: 343,
     ...Platform.select({
       ios: {
         backgroundColor: "transparent",
