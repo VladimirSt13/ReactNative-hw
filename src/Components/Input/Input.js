@@ -1,6 +1,10 @@
-import { Text, Pressable, StyleSheet } from "react-native";
-import { InputWrapper, InputStyled } from "./Input.styled";
 import { useState } from "react";
+import {
+  InputWrapper,
+  InputStyled,
+  ShowPasswordBtn,
+  ShowPasswordBtnText,
+} from "./Input.styled";
 
 export const Input = ({
   fieldName,
@@ -16,7 +20,7 @@ export const Input = ({
     setShowPassword(!showPassword);
   };
 
-  const isPassword = props.isPassword ? true : false;
+  const isPassword = fieldName==="password" ? true : false;
 
   return (
     <InputWrapper>
@@ -28,26 +32,12 @@ export const Input = ({
         secureTextEntry={isPassword ? showPassword : false}
       />
       {isPassword && (
-        <Pressable
-          style={styles.showPasswordBtn}
+        <ShowPasswordBtn
           onPress={changePasswordVisibility}
         >
-          <Text style={styles.showPasswordBtnText}>Показати</Text>
-        </Pressable>
+          <ShowPasswordBtnText>Показати</ShowPasswordBtnText>
+        </ShowPasswordBtn>
       )}
     </InputWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  showPasswordBtn: {
-    position: "absolute",
-    right: 16,
-    top: 14,
-  },
-  showPasswordBtnText: {
-    fontSize: 16,
-    color: "#1B4371",
-    textAlign: "right",
-  },
-});
