@@ -6,7 +6,12 @@ export const FormContaner = styled(View)`
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   background-color: #fff;
-  padding: 92px 16px 42px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: ${(props) =>
+    props.pt && !props.keyboardStatus ? props.pt : 16}px;
+  padding-bottom: ${(props) =>
+    props.pb && !props.keyboardStatus ? props.pb : 16}px;
 `;
 
 export const Form = styled(View)`

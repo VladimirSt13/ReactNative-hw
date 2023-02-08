@@ -2,24 +2,19 @@ import { useState, useEffect } from "react";
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  View,
-  Pressable,
-  Image,
-  Text,
-  TextInput,
-  StyleSheet,
   Platform,
   Keyboard,
   Alert,
 } from "react-native";
 
 import photoBG from "../../img/Photo-BG.jpg";
-import { FormContaner, Form } from "./RegistrationScreen.styled";
-import { Wallpaper } from "./../../Components/Wallpaper/Wallpaper";
+import { FormContaner, Form } from "./Auth.styled";
+import { Wallpaper } from "../../Components/Wallpaper/Wallpaper";
 import { Avatar } from "../../Components/Avatar/Avatar";
-import { Title } from "./../../Components/Title/Title";
+import { Title } from "../../Components/Title/Title";
 import { Input } from "../../Components/Input/Input";
 import { Button } from "../../Components/Button/Button";
+import { Link } from "../../Components/Link/Link";
 
 const initialState = {
   avatar: "",
@@ -30,7 +25,7 @@ const initialState = {
 
 export default function RegistrationScreen() {
   const [user, setUser] = useState(initialState);
-  const [keyboardStatus, setKeyboardStatus] = useState("false");
+  const [keyboardStatus, setKeyboardStatus] = useState(false);
 
   const keyboardHide = () => {
     setKeyboardStatus(false);
@@ -50,6 +45,7 @@ export default function RegistrationScreen() {
   }, []);
 
   useEffect(() => {
+    console.log(keyboardStatus);
     return () => {};
   }, [keyboardStatus]);
 
@@ -59,7 +55,7 @@ export default function RegistrationScreen() {
         <KeyboardAvoidingView
         // behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <FormContaner>
+          <FormContaner pt="92" pb="44" keyboardStatus={keyboardStatus}>
             <Form>
               <Avatar />
 
@@ -98,22 +94,8 @@ export default function RegistrationScreen() {
               >
                 Зареєструватись
               </Button>
-              {/* <Pressable
-                style={styles.regButton}
-                onPress={() => {
-                  keyboardHide();
-                  console.log(user);
-                  Alert.alert("Ви зареєстровані");
-                }}
-              >
-                <Text style={styles.regBtnTitle}>Зареєструватись</Text>
-              </Pressable> */}
 
-              {!keyboardStatus && (
-                <Pressable>
-                  <Text style={styles.redirectLink}>Вже є акаунт? Увійти</Text>
-                </Pressable>
-              )}
+              {!keyboardStatus && <Link>Вже є акаунт? Увійти</Link>}
             </Form>
           </FormContaner>
         </KeyboardAvoidingView>
@@ -121,34 +103,3 @@ export default function RegistrationScreen() {
     </Wallpaper>
   );
 }
-
-const styles = StyleSheet.create({
-  regButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    // marginBottom: 16,
-    height: 51,
-    ...Platform.select({
-      ios: {
-        backgroundColor: "transparent",
-        borderColor: "#FF6C00",
-      },
-      android: {
-        backgroundColor: "#FF6C00",
-        borderColor: "transparent",
-      },
-    }),
-
-    borderRadius: 100,
-  },
-  regBtnTitle: {
-    fontSize: 16,
-    color: Platform.OS === "ios" ? "#FF6C00" : "#FFFFFF",
-  },
-  redirectLink: {
-    fontSize: 16,
-    textAlign: "center",
-    color: "#1B4371",
-  },
-});

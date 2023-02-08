@@ -13,7 +13,8 @@ export const InputStyled = styled(TextInput)`
   border: 1px solid #e8e8e8;
   border-radius: 8px;
   font-size: 16px;
-  margin-bottom: ${(props) => (props.secureTextEntry ? 42 : 16)}px;
+  /* margin-bottom: ${(props) => (props.secureTextEntry ? 42 : 16)}px; */
+  margin-bottom: 42px;
 `;
 
 export const ShowPasswordBtn = styled(Pressable)`
@@ -23,6 +24,7 @@ export const ShowPasswordBtn = styled(Pressable)`
 `;
 
 export const ShowPasswordBtnText = styled(Text)`
+  font-family: "Roboto-Regular";
   font-size: 16px;
   color: #1b4371;
   text-align: right;
