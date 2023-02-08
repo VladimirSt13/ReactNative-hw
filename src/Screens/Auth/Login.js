@@ -8,6 +8,7 @@ import {
   Button as ButtonRN,
   View,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 
 import photoBG from "../../img/Photo-BG.jpg";
@@ -27,8 +28,13 @@ export const Login = ({ navigation, route }) => {
   const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
+  const [dimensions, setdimensions] = useState(
+    Dimensions.get("window").width - 20 * 2
+  );
+
   const keyboardHide = () => {
     setKeyboardStatus(false);
+    setState(initialState);
     Keyboard.dismiss();
   };
 
@@ -45,16 +51,22 @@ export const Login = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    console.log(keyboardStatus);
-    return () => {};
-  }, [keyboardStatus]);
+    const onChange = () => {
+      const width = Dimensions.get("window").width - 20 * 2;
+      setdimensions(width);
+    };
+    Dimensions.addEventListener("change", onChange);
+    return () => {
+      // Dimensions.removeEventListener("change", onChange);
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
       <Wallpaper image={photoBG}>
         <TouchableWithoutFeedback onPress={keyboardHide}>
           <KeyboardAvoidingView
-          // behavior={Platform.OS === "ios" ? "padding" : "height"}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
             <FormContaner pt="32" pb="144" keyboardStatus={keyboardStatus}>
               <Form>
@@ -76,7 +88,7 @@ export const Login = ({ navigation, route }) => {
                   handleUser={handleUser}
                   setKeyboardStatus={setKeyboardStatus}
                 />
-                <Button
+                {/* <Button
                   onPress={() => {
                     keyboardHide();
                     console.log(user);
@@ -86,7 +98,7 @@ export const Login = ({ navigation, route }) => {
                   Увійти
                 </Button>
 
-                {!keyboardStatus && <Link>Немає акаунту? Зареєструватись</Link>}
+                {!keyboardStatus && <Link>Немає акаунту? Зареєструватись</Link>} */}
 
                 <ButtonRN
                   title="Reg"

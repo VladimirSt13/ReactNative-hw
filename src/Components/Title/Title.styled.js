@@ -2,7 +2,7 @@ import { Text } from "react-native";
 import styled from "styled-components";
 
 export const TitleStyled = styled(Text)`
-  font-family: "Roboto-Medium";
+  /* font-family: "Roboto-Medium"; */
   text-align: center;
   font-size: 30px;
   line-height: 35px;

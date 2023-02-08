@@ -9,6 +9,7 @@ import {
   View,
   Text,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 
 import photoBG from "../../img/Photo-BG.jpg";
@@ -31,6 +32,10 @@ export const Registration = ({ navigation, route }) => {
   const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
+  const [dimensions, setdimensions] = useState(
+    Dimensions.get("window").width - 20 * 2
+  );
+
   const keyboardHide = () => {
     setKeyboardStatus(false);
     Keyboard.dismiss();
@@ -43,9 +48,14 @@ export const Registration = ({ navigation, route }) => {
     }));
 
   useEffect(() => {
-    console.log("start", Platform.OS);
-
-    return () => {};
+    const onChange = () => {
+      const width = Dimensions.get("window").width - 20 * 2;
+      setdimensions(width);
+    };
+    Dimensions.addEventListener("change", onChange);
+    return () => {
+      Dimensions.removeEventListener("change", onChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -90,7 +100,7 @@ export const Registration = ({ navigation, route }) => {
                   setKeyboardStatus={setKeyboardStatus}
                 />
 
-                <Button
+                {/* <Button
                   onPress={() => {
                     keyboardHide();
                     console.log(user);
@@ -100,7 +110,7 @@ export const Registration = ({ navigation, route }) => {
                   Зареєструватись
                 </Button>
 
-                {!keyboardStatus && <Link>Вже є акаунт? Увійти</Link>}
+                {!keyboardStatus && <Link>Вже є акаунт? Увійти</Link>} */}
 
                 <ButtonRN
                   title="Go to Login"

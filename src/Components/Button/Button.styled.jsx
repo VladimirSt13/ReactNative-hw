@@ -23,7 +23,7 @@ export const ButtonStyled = styled(Pressable)`
 `;
 
 export const TextStyled = styled(Text)`
-  font-family: "Roboto-Regular";
+  /* font-family: "Roboto-Regular"; */
   font-size: 16px;
   color: ${(props) => (props.type ? "#FF6C00" : "#FFFFFF")};
 `;

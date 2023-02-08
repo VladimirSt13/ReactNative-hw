@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, Button as ButtonRN } from "react-native";
 
-export function Home() {
+export function Home({ navigation, route }) {
   return (
-    <View style={styles.container}>
+    <>
       <Text>Home Screen</Text>
       <ButtonRN
         title="Reg"
@@ -13,7 +13,7 @@ export function Home() {
         title="Go to Login"
         onPress={() => navigation.navigate("Login")}
       />
-    </View>
+    </>
   );
 }
 
