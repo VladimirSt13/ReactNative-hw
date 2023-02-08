@@ -15,12 +15,22 @@ export const Input = ({
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(true);
+  const [isFocus, setIsFocus] = useState(false);
 
   const changePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const isPassword = fieldName==="password" ? true : false;
+  const isPassword = fieldName === "password" ? true : false;
+
+  const focus = () => {
+    setKeyboardStatus(true);
+    setIsFocus(true);
+  };
+
+  const blur = () => {
+    setIsFocus(false);
+  };
 
   return (
     <InputWrapper>
@@ -28,13 +38,14 @@ export const Input = ({
         value={value}
         onChangeText={(value) => handleUser(fieldName, value)}
         placeholder={placeholder}
-        onFocus={() => setKeyboardStatus(true)}
+        onFocus={focus}
+        onBlur={blur}
+        focus={isFocus}
         secureTextEntry={isPassword ? showPassword : false}
+        isPassword={isPassword}
       />
       {isPassword && (
-        <ShowPasswordBtn
-          onPress={changePasswordVisibility}
-        >
+        <ShowPasswordBtn onPress={changePasswordVisibility}>
           <ShowPasswordBtnText>Показати</ShowPasswordBtnText>
         </ShowPasswordBtn>
       )}

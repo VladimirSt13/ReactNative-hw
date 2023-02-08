@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Button as ButtonRN } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-import RegistrationScreen from "./src/Screens/Auth/Registration";
-
-import LoginScreen from "./src/Screens/Auth/Login";
+import { Registration } from "./src/Screens/Auth/Registration";
+import { Login } from "./src/Screens/Auth/Login";
+import { Home } from "./src/Screens/Home";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,6 +18,8 @@ const loadFonts = async () => {
     "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
   });
 };
+
+const MainStack = createStackNavigator(); // вказівка на групу навігаторів
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -45,16 +49,35 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      {/* <RegistrationScreen /> */}
-      <LoginScreen />
-    </View>
+    <NavigationContainer>
+      <View onLayout={onLayoutRootView}>
+        <MainStack.Navigator initialRouteName="Login">
+          <MainStack.Screen name="Registration" component={Registration} />
+          <MainStack.Screen name="Login" component={Login} />
+          <MainStack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              title: "Home screen",
+              headerStyle: {
+                backgroundColor: "#f4511e",
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                fontWeight: "bold",
+                fontSize: 20,
+              },
+              headerRight: () => (
+                <ButtonRN
+                  onPress={() => alert("This is a button!")}
+                  title="Press me"
+                  color="#fff"
+                />
+              ),
+            }}
+          />
+        </MainStack.Navigator>
+      </View>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-});

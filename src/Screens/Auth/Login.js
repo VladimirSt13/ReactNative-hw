@@ -5,6 +5,9 @@ import {
   Platform,
   Keyboard,
   Alert,
+  Button as ButtonRN,
+  View,
+  StyleSheet,
 } from "react-native";
 
 import photoBG from "../../img/Photo-BG.jpg";
@@ -20,7 +23,7 @@ const initialState = {
   password: "",
 };
 
-export default function RegistrationScreen() {
+export const Login = ({ navigation, route }) => {
   const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
@@ -47,45 +50,66 @@ export default function RegistrationScreen() {
   }, [keyboardStatus]);
 
   return (
-    <Wallpaper image={photoBG}>
-      <TouchableWithoutFeedback onPress={keyboardHide}>
-        <KeyboardAvoidingView
-        // behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <FormContaner pt="32" pb="144" keyboardStatus={keyboardStatus}>
-            <Form>
-              <Title keyboardStatus={keyboardStatus}>Увійти</Title>
+    <View style={styles.container}>
+      <Wallpaper image={photoBG}>
+        <TouchableWithoutFeedback onPress={keyboardHide}>
+          <KeyboardAvoidingView
+          // behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <FormContaner pt="32" pb="144" keyboardStatus={keyboardStatus}>
+              <Form>
+                <Title keyboardStatus={keyboardStatus}>Увійти</Title>
 
-              <Input
-                value={user.email}
-                fieldName="email"
-                placeholder="Адреса електронної пошти"
-                handleUser={handleUser}
-                setKeyboardStatus={setKeyboardStatus}
-              />
+                <Input
+                  value={user.email}
+                  fieldName="email"
+                  placeholder="Адреса електронної пошти"
+                  handleUser={handleUser}
+                  setKeyboardStatus={setKeyboardStatus}
+                  autoFocus={true}
+                />
 
-              <Input
-                value={user.password}
-                fieldName="password"
-                placeholder="Пароль"
-                handleUser={handleUser}
-                setKeyboardStatus={setKeyboardStatus}
-              />
-              <Button
-                onPress={() => {
-                  keyboardHide();
-                  console.log(user);
-                  Alert.alert("Ви авторизовані");
-                }}
-              >
-                Увійти
-              </Button>
+                <Input
+                  value={user.password}
+                  fieldName="password"
+                  placeholder="Пароль"
+                  handleUser={handleUser}
+                  setKeyboardStatus={setKeyboardStatus}
+                />
+                <Button
+                  onPress={() => {
+                    keyboardHide();
+                    console.log(user);
+                    Alert.alert("Ви авторизовані");
+                  }}
+                >
+                  Увійти
+                </Button>
 
-              {!keyboardStatus && <Link>Немає акаунту? Зареєструватись</Link>}
-            </Form>
-          </FormContaner>
-        </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
-    </Wallpaper>
+                {!keyboardStatus && <Link>Немає акаунту? Зареєструватись</Link>}
+
+                <ButtonRN
+                  title="Reg"
+                  onPress={() => navigation.navigate("Registration")}
+                />
+
+                <ButtonRN
+                  title="Home"
+                  onPress={() => navigation.navigate("Home")}
+                />
+              </Form>
+            </FormContaner>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </Wallpaper>
+    </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

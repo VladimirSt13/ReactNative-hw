@@ -10,11 +10,11 @@ export const InputStyled = styled(TextInput)`
   padding-right: 16px;
   height: 50px;
   background-color: #f6f6f6;
-  border: 1px solid #e8e8e8;
+  border: ${(props) =>
+    props.focus ? "1px solid #FF6C00" : "1px solid #e8e8e8"};
   border-radius: 8px;
   font-size: 16px;
-  /* margin-bottom: ${(props) => (props.secureTextEntry ? 42 : 16)}px; */
-  margin-bottom: 42px;
+  margin-bottom: ${(props) => (props.isPassword ? 42 : 16)}px;
 `;
 
 export const ShowPasswordBtn = styled(Pressable)`
