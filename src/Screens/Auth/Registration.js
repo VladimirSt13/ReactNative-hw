@@ -5,21 +5,20 @@ import {
   Platform,
   Keyboard,
   Alert,
-  Button as ButtonRN,
   View,
-  Text,
   StyleSheet,
-  Dimensions,
+  Text,
+  // Dimensions,
 } from "react-native";
 
 import photoBG from "../../img/Photo-BG.jpg";
 import { FormContaner, Form } from "./Auth.styled";
-import { Wallpaper } from "../../Components/Wallpaper/Wallpaper";
-import { Avatar } from "../../Components/Avatar/Avatar";
-import { Title } from "../../Components/Title/Title";
-import { Input } from "../../Components/Input/Input";
-import { Button } from "../../Components/Button/Button";
-import { Link } from "../../Components/Link/Link";
+import { Wallpaper } from "../../components/Wallpaper/Wallpaper";
+import { Avatar } from "../../components/Avatar/Avatar";
+import { Title } from "../../components/Title/Title";
+import { Input } from "../../components/Input/Input";
+import { Button } from "../../components/Button/Button";
+import { Link } from "../../components/Link/Link";
 
 const initialState = {
   avatar: "",
@@ -32,12 +31,9 @@ export const Registration = ({ navigation, route }) => {
   const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
-  const [dimensions, setdimensions] = useState(
-    Dimensions.get("window").width - 20 * 2
-  );
-
   const keyboardHide = () => {
     setKeyboardStatus(false);
+    setUser(initialState);
     Keyboard.dismiss();
   };
 
@@ -48,20 +44,11 @@ export const Registration = ({ navigation, route }) => {
     }));
 
   useEffect(() => {
-    const onChange = () => {
-      const width = Dimensions.get("window").width - 20 * 2;
-      setdimensions(width);
-    };
-    Dimensions.addEventListener("change", onChange);
-    return () => {
-      Dimensions.removeEventListener("change", onChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log(keyboardStatus);
+    // console.log(keyboardStatus);
     return () => {};
   }, [keyboardStatus]);
+
+  const onPress = () => navigation.navigate("Login");
 
   return (
     <View style={styles.container}>
@@ -100,27 +87,21 @@ export const Registration = ({ navigation, route }) => {
                   setKeyboardStatus={setKeyboardStatus}
                 />
 
-                {/* <Button
+                <Button
                   onPress={() => {
                     keyboardHide();
                     console.log(user);
                     Alert.alert("Ви зареєстровані");
                   }}
-                >
-                  Зареєструватись
-                </Button>
-
-                {!keyboardStatus && <Link>Вже є акаунт? Увійти</Link>} */}
-
-                <ButtonRN
-                  title="Go to Login"
-                  onPress={() => navigation.navigate("Login")}
+                  buttonText="Зареєструватись"
                 />
 
-                <ButtonRN
-                  title="Home"
-                  onPress={() => navigation.navigate("Home")}
-                />
+                {!keyboardStatus && (
+                  <Link onPress={onPress}>
+                    Вже є акаунт?{" "}
+                    <Text style={{ color: "#ff6347" }}>Увійти</Text>
+                  </Link>
+                )}
               </Form>
             </FormContaner>
           </KeyboardAvoidingView>

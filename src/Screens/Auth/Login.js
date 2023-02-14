@@ -5,19 +5,19 @@ import {
   Platform,
   Keyboard,
   Alert,
-  Button as ButtonRN,
   View,
   StyleSheet,
-  Dimensions,
+  // Dimensions,
+  Text,
 } from "react-native";
 
 import photoBG from "../../img/Photo-BG.jpg";
 import { FormContaner, Form } from "./Auth.styled";
-import { Wallpaper } from "../../Components/Wallpaper/Wallpaper";
-import { Title } from "../../Components/Title/Title";
-import { Input } from "../../Components/Input/Input";
-import { Button } from "../../Components/Button/Button";
-import { Link } from "../../Components/Link/Link";
+import { Wallpaper } from "../../components/Wallpaper/Wallpaper";
+import { Title } from "../../components/Title/Title";
+import { Input } from "../../components/Input/Input";
+import { Button } from "../../components/Button/Button";
+import { Link } from "../../components/Link/Link";
 
 const initialState = {
   email: "",
@@ -28,13 +28,9 @@ export const Login = ({ navigation, route }) => {
   const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
-  const [dimensions, setdimensions] = useState(
-    Dimensions.get("window").width - 20 * 2
-  );
-
   const keyboardHide = () => {
     setKeyboardStatus(false);
-    setState(initialState);
+    setUser(initialState);
     Keyboard.dismiss();
   };
 
@@ -51,27 +47,23 @@ export const Login = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    const onChange = () => {
-      const width = Dimensions.get("window").width - 20 * 2;
-      setdimensions(width);
-    };
-    Dimensions.addEventListener("change", onChange);
-    return () => {
-      // Dimensions.removeEventListener("change", onChange);
-    };
-  }, []);
+    // console.log("keybStatus", keyboardStatus);
+
+    return () => {};
+  }, [keyboardStatus]);
+
+  const onPress = () => navigation.navigate("Registration");
 
   return (
     <View style={styles.container}>
       <Wallpaper image={photoBG}>
         <TouchableWithoutFeedback onPress={keyboardHide}>
           <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          // behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
             <FormContaner pt="32" pb="144" keyboardStatus={keyboardStatus}>
               <Form>
                 <Title keyboardStatus={keyboardStatus}>Увійти</Title>
-
                 <Input
                   value={user.email}
                   fieldName="email"
@@ -80,7 +72,6 @@ export const Login = ({ navigation, route }) => {
                   setKeyboardStatus={setKeyboardStatus}
                   autoFocus={true}
                 />
-
                 <Input
                   value={user.password}
                   fieldName="password"
@@ -88,27 +79,21 @@ export const Login = ({ navigation, route }) => {
                   handleUser={handleUser}
                   setKeyboardStatus={setKeyboardStatus}
                 />
-                {/* <Button
+                <Button
                   onPress={() => {
                     keyboardHide();
                     console.log(user);
                     Alert.alert("Ви авторизовані");
                   }}
-                >
-                  Увійти
-                </Button>
-
-                {!keyboardStatus && <Link>Немає акаунту? Зареєструватись</Link>} */}
-
-                <ButtonRN
-                  title="Reg"
-                  onPress={() => navigation.navigate("Registration")}
+                  buttonText=" Увійти"
                 />
 
-                <ButtonRN
-                  title="Home"
-                  onPress={() => navigation.navigate("Home")}
-                />
+                {!keyboardStatus && (
+                  <Link onPress={onPress}>
+                    Немає акаунту?{" "}
+                    <Text style={{ color: "#ff6347" }}>Зареєструватись</Text>
+                  </Link>
+                )}
               </Form>
             </FormContaner>
           </KeyboardAvoidingView>

@@ -8,8 +8,9 @@ export const FormContaner = styled(View)`
   background-color: #fff;
   padding-left: 16px;
   padding-right: 16px;
-  padding-top: ${(props) =>
-    props.pt && !props.keyboardStatus ? props.pt : 16}px;
+  /* padding-top: ${(props) =>
+    props.pt && !props.keyboardStatus ? props.pt : 16}px; */
+  padding-top: ${(props) => props.pt}px;
   padding-bottom: ${(props) =>
     props.pb && !props.keyboardStatus ? props.pb : 16}px;
 `;
