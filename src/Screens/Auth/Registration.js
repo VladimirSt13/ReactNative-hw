@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  Platform,
   Keyboard,
-  Alert,
   View,
   StyleSheet,
   Text,
@@ -13,12 +11,15 @@ import {
 
 import photoBG from "../../img/Photo-BG.jpg";
 import { FormContaner, Form } from "./Auth.styled";
-import { Wallpaper } from "../../components/Wallpaper/Wallpaper";
-import { Avatar } from "../../components/Avatar/Avatar";
-import { Title } from "../../components/Title/Title";
-import { Input } from "../../components/Input/Input";
-import { Button } from "../../components/Button/Button";
-import { Link } from "../../components/Link/Link";
+
+import {
+  Wallpaper,
+  Avatar,
+  Title,
+  Input,
+  Button,
+  Link,
+} from "../../Components";
 
 const initialState = {
   avatar: "",
@@ -43,12 +44,12 @@ export const Registration = ({ navigation, route }) => {
       [field]: value,
     }));
 
-  useEffect(() => {
-    // console.log(keyboardStatus);
-    return () => {};
-  }, [keyboardStatus]);
-
   const onPress = () => navigation.navigate("Login");
+
+  const handleRegister = () => {
+    // код для реєстрації користувача
+    navigation.navigate("Home");
+  };
 
   return (
     <View style={styles.container}>
@@ -91,7 +92,7 @@ export const Registration = ({ navigation, route }) => {
                   onPress={() => {
                     keyboardHide();
                     console.log(user);
-                    Alert.alert("Ви зареєстровані");
+                    handleRegister();
                   }}
                   buttonText="Зареєструватись"
                 />

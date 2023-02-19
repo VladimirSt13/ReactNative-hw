@@ -1,61 +1,40 @@
-import { useState, useEffect, useCallback } from "react";
-import * as Font from "expo-font";
+import { useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import * as SplashScreen from "expo-splash-screen";
 
-import { NavigationContainer } from "@react-navigation/native";
+import * as Font from "expo-font";
 
 import { useRoute } from "./src/router";
 
-// SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync();
 
 const loadFonts = async () => {
   await Font.loadAsync({
-    "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
+    "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Thin.ttf"),
     "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
   });
 };
 
-export default function App() {
-  const [appIsReady, setAppIsReady] = useState(false);
-
-  const routing = useRoute(true);
-
+const App = () => {
   useEffect(() => {
     async function prepare() {
       try {
         await loadFonts();
-        console.log("fonts-loaded");
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await SplashScreen.hideAsync();
       } catch (e) {
         console.warn(e);
       } finally {
-        setAppIsReady(true);
+        await SplashScreen.hideAsync();
       }
     }
-
     prepare();
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    console.log(
-      "🚀 ~ file: App.js:42 ~ onLayoutRootView ~ onLayoutRootView",
-      appIsReady
-    );
+  const routing = useRoute(false);
 
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
+  return <NavigationContainer>{routing}</NavigationContainer>;
+};
 
-  if (!appIsReady) {
-    return null;
-  }
-
-  return (
-    <NavigationContainer>
-      {/* <View onLayout={onLayoutRootView}> */}
-      {/* </View> */}
-      {routing}
-    </NavigationContainer>
-  );
-}
+export default App;

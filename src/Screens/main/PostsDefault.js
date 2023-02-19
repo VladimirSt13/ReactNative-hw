@@ -1,4 +1,6 @@
 import { Text, View, Image, StyleSheet } from "react-native";
+import { ButtonIcon } from "../../Components";
+import { ButtonPlus } from "./../../Components/Buttons/ButtonPlus/ButtonPlus";
 import avatar from "../../img/Home/avatar.jpg";
 import Grid from "../../img/Home/grid.svg";
 import Plus from "../../img/Home/plus.svg";
@@ -36,9 +38,17 @@ export const Posts = () => {
         </View>
       </View>
       <View style={styles.footer}>
-        <Grid width={40} height={40} fill="#000" />
-        <Plus width={13} height={13} fill="#000" />
-        <User width={40} height={40} stroke="#000" />
+        <ButtonIcon
+          icon={Grid}
+          size={40}
+          // onPress={signOut}
+        />
+        <ButtonPlus width={13} height={13} icon={Plus} />
+        <ButtonIcon
+          icon={User}
+          size={40}
+          // onPress={signOut}
+        />
       </View>
     </View>
   );
@@ -65,6 +75,13 @@ const styles = StyleSheet.create({
   footer: {
     height: 83,
     flexDirection: "row",
-    alignItems: "center",
+    paddingTop: 12,
+    justifyContent: "center",
+    elevation: 1,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: -0.5 },
+    shadowRadius: 1,
   },
 });

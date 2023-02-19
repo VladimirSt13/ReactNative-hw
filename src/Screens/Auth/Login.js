@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  Platform,
   Keyboard,
-  Alert,
   View,
   StyleSheet,
   // Dimensions,
@@ -13,11 +11,9 @@ import {
 
 import photoBG from "../../img/Photo-BG.jpg";
 import { FormContaner, Form } from "./Auth.styled";
-import { Wallpaper } from "../../components/Wallpaper/Wallpaper";
-import { Title } from "../../components/Title/Title";
-import { Input } from "../../components/Input/Input";
-import { Button } from "../../components/Button/Button";
-import { Link } from "../../components/Link/Link";
+
+import { Wallpaper, Title, Input, Button, Link } from "../../Components";
+import Home from "../main/Home";
 
 const initialState = {
   email: "",
@@ -40,19 +36,12 @@ export const Login = ({ navigation, route }) => {
       [field]: value,
     }));
 
-  useEffect(() => {
-    console.log("start", Platform.OS);
-
-    return () => {};
-  }, []);
-
-  useEffect(() => {
-    // console.log("keybStatus", keyboardStatus);
-
-    return () => {};
-  }, [keyboardStatus]);
-
   const onPress = () => navigation.navigate("Registration");
+
+  const handleLogin = () => {
+    // код для авторизації користувача
+    navigation.navigate("Home");
+  };
 
   return (
     <View style={styles.container}>
@@ -83,7 +72,7 @@ export const Login = ({ navigation, route }) => {
                   onPress={() => {
                     keyboardHide();
                     console.log(user);
-                    Alert.alert("Ви авторизовані");
+                    handleLogin();
                   }}
                   buttonText=" Увійти"
                 />
