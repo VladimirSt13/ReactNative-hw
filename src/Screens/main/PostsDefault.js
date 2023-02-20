@@ -1,7 +1,7 @@
 import { Text, View, Image, StyleSheet } from "react-native";
-import { ButtonIcon } from "../../Components";
-import { ButtonPlus } from "./../../Components/Buttons/ButtonPlus/ButtonPlus";
 import avatar from "../../img/Home/avatar.jpg";
+import { ButtonPlus } from "./../../Components/Buttons/ButtonPlus/ButtonPlus";
+import { ButtonIcon } from "../../Components";
 import Grid from "../../img/Home/grid.svg";
 import Plus from "../../img/Home/plus.svg";
 import User from "../../img/Home/user.svg";
@@ -73,10 +73,11 @@ const styles = StyleSheet.create({
     color: "rgba(33, 33, 33, 0.8)",
   },
   footer: {
-    height: 83,
     flexDirection: "row",
-    paddingTop: 12,
     justifyContent: "center",
+    alignItems: "flex-start",
+    height: 83,
+    paddingTop: 12,
     elevation: 1,
     backgroundColor: "#fff",
     shadowColor: "#000",
