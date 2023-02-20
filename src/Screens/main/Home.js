@@ -1,11 +1,10 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ButtonIcon } from "../../Components";
-import { ButtonPlus } from "./../../Components/Buttons/ButtonPlus/ButtonPlus";
+import { ButtonPlus } from "../../Components";
 import Grid from "../../img/Home/grid.svg";
 import Plus from "../../img/Home/plus.svg";
 import User from "../../img/Home/user.svg";
-
 import LogOutIcon from "../../img/Home/logOut";
 
 import { CreatePosts } from "./CreatePosts";
@@ -22,7 +21,7 @@ const Home = ({ navigation, route }) => {
     <MainBottomTab.Navigator
       initialRouteName="Posts"
       screenOptions={{
-        //=================================
+        tabBarHideOnKeyboard: true,
         headerStyle: {
           height: 88,
           borderBottomColor: "rgba(0, 0, 0, 0.3)",
@@ -47,18 +46,9 @@ const Home = ({ navigation, route }) => {
         inactiveTintColor: "gray",
         tabBarShowLabel: false,
         tabBarStyle: {
-          // justifyContent: "center",
-          // alignItems: "flex-start",
           height: 83,
-          paddingTop: 0,
-          paddingBottom: 0,
-          // elevation: 1,
-          // backgroundColor: "#fff",
-          // shadowColor: "#000",
-          // shadowOpacity: 0.3,
-          // shadowOffset: { width: 0, height: -0.5 },
-          // shadowRadius: 1,
-          // showLabel: false,
+          paddingTop: 16,
+          alignItems: "center",
         },
       }}
     >
@@ -67,12 +57,8 @@ const Home = ({ navigation, route }) => {
         component={Posts}
         options={{
           title: "Публікації",
-          tabBarIcon: ({ focused, size, color }) => (
-            <ButtonIcon
-              icon={Grid}
-              size={40}
-              // onPress={signOut}
-            />
+          tabBarButton: ({ onPress, accessibilityLabel }) => (
+            <ButtonIcon icon={Grid} size={40} onPress={onPress} />
           ),
         }}
       />
@@ -80,17 +66,22 @@ const Home = ({ navigation, route }) => {
         name="CreatePosts"
         component={CreatePosts}
         options={{
-          title: "Публікації",
-          tabBarIcon: ({ focused, size, color }) => (
-            <ButtonIcon
-              icon={Grid}
-              size={40}
-              // onPress={signOut}
-            />
+          title: "Створити пост",
+          tabBarButton: ({ onPress, accessibilityLabel }) => (
+            <ButtonPlus icon={Plus} size={40} onPress={onPress} />
           ),
         }}
       />
-      <MainBottomTab.Screen name="Profile" component={Profile} />
+      <MainBottomTab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: "Профіль",
+          tabBarButton: ({ onPress, accessibilityLabel }) => (
+            <ButtonIcon icon={User} size={40} onPress={onPress} />
+          ),
+        }}
+      />
     </MainBottomTab.Navigator>
   );
 };

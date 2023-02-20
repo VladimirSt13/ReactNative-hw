@@ -1,5 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
-import { View, Text } from "react-native";
+import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
@@ -32,9 +31,11 @@ const App = () => {
   }, []);
 
   if (!isAppReady || !fontsLoaded) {
-    console.log("Still loading fonts or app is not ready");
+    console.log("loading fonts or app is not ready");
     return null;
   }
+
+  console.log("fonts loaded or app is ready");
 
   const routing = useRoute(false);
 
