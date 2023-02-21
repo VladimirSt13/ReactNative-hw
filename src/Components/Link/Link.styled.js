@@ -2,7 +2,7 @@ import { Text } from "react-native";
 import styled from "styled-components";
 
 export const LinkStyled = styled(Text)`
-  /* font-family: "Roboto-Regular"; */
+  font-family: "Roboto-Regular";
 
   text-align: center;
   font-size: 16px;
