@@ -8,7 +8,7 @@ import {
 
 export const Input = ({
   fieldName,
-  handleUser,
+  handleInput = () => console.log("change in input"),
   placeholder,
   setKeyboardStatus,
   value,
@@ -36,7 +36,7 @@ export const Input = ({
     <InputWrapper>
       <InputStyled
         value={value}
-        onChangeText={(value) => handleUser(fieldName, value)}
+        onChangeText={(value) => handleInput(fieldName, value)}
         placeholder={placeholder}
         onFocus={focus}
         onBlur={blur}

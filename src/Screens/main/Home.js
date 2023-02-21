@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ButtonIcon } from "../../Components";
-import { ButtonPlus } from "../../Components";
+import { ButtonRound } from "../../Components";
 import Grid from "../../img/icons/grid.svg";
 import Plus from "../../img/icons/plus.svg";
 import User from "../../img/icons/user.svg";
@@ -23,7 +23,7 @@ const Home = ({ navigation, route }) => {
   };
   return (
     <MainBottomTab.Navigator
-      initialRouteName="Posts"
+      initialRouteName="CreatePost"
       screenOptions={{
         tabBarHideOnKeyboard: true,
         headerStyle: {
@@ -81,8 +81,17 @@ const Home = ({ navigation, route }) => {
             />
           ),
           tabBarButton: ({ onPress, accessibilityLabel }) => (
-            <ButtonPlus icon={Plus} size={40} onPress={onPress} />
+            <ButtonRound
+              icon={Plus}
+              size={40}
+              color={"#ff6c00"}
+              onPress={onPress}
+              ml={32}
+              mr={32}
+            />
           ),
+
+          headerStyle: {},
           tabBarVisible: false,
           tabBarStyle: { display: "none" },
         }}

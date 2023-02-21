@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { View } from "react-native";
 
-export const FormContaner = styled(View)`
+export const FormContainer = styled(View)`
   min-width: 375px;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
