@@ -1,4 +1,5 @@
 export { Avatar } from "./Avatar/Avatar";
+export { PostComments } from "./PostCommets/PostComments";
 export { AddPhoto } from "./AddPhoto/AddPhoto";
 export { Button } from "./Buttons/Button/Button";
 export { ButtonIcon } from "./Buttons/ButtonIcon/ButtonIcon";

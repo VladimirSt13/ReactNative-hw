@@ -6,10 +6,10 @@ import Plus from "../../img/icons/plus.svg";
 import User from "../../img/icons/user.svg";
 import LogOutIcon from "../../img/icons/logOut.svg";
 import BackArrow from "../../img/icons/backArrow.svg";
-
 import { CreatePost } from "./CreatePost";
 import { Posts } from "./PostsDefault";
 import { Profile } from "./Profile";
+import { Comments } from "./Comments";
 
 const MainBottomTab = createBottomTabNavigator();
 const Home = ({ navigation, route }) => {
@@ -69,7 +69,8 @@ const Home = ({ navigation, route }) => {
       />
       <MainBottomTab.Screen
         name="CreatePost"
-        component={CreatePost}
+        // component={CreatePost}
+        component={Comments}
         options={{
           title: "Створити пост",
           headerLeft: () => (

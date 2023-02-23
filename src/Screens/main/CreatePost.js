@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,7 +7,6 @@ import {
   Keyboard,
   Platform,
 } from "react-native";
-import { useState } from "react";
 import { AddPhoto, Button, ButtonRound } from "../../Components";
 import { Input } from "../../Components";
 import Trash from "../../img/icons/trash";
