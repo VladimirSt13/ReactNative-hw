@@ -23,7 +23,7 @@ const Home = ({ navigation, route }) => {
   };
   return (
     <MainBottomTab.Navigator
-      initialRouteName="CreatePost"
+      initialRouteName="Profile"
       screenOptions={{
         tabBarHideOnKeyboard: true,
         headerStyle: {
@@ -69,8 +69,8 @@ const Home = ({ navigation, route }) => {
       />
       <MainBottomTab.Screen
         name="CreatePost"
-        // component={CreatePost}
-        component={Comments}
+        component={CreatePost}
+        // component={Comments}
         options={{
           title: "Створити пост",
           headerLeft: () => (
@@ -113,7 +113,8 @@ const Home = ({ navigation, route }) => {
           tabBarButton: ({ onPress, accessibilityLabel }) => (
             <ButtonIcon icon={User} size={40} onPress={onPress} />
           ),
-          tabBarStyle: { display: "none" },
+          headerShown: false,
+          // tabBarStyle: { display: "none" },
         }}
       />
     </MainBottomTab.Navigator>

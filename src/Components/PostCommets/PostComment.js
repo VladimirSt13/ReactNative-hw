@@ -1,82 +1,71 @@
+import React, { useState } from "react";
+
 import { View, Text, StyleSheet, Image } from "react-native";
+import {
+  CommentTextContainer,
+  CommentText,
+  CommentDate,
+} from "./PostCommets.styled";
 
-export const PostComment = ({
-  userAvatar,
-  username,
-  commentText,
-  commentDate,
-  isAuthor,
-}) => {
+const defaultAvatar = require("../../img/default_avatar.png");
+const authorAvatar = require("../../img/Home/avatar.jpg");
+
+export const PostComment = ({ comment, isAuthor }) => {
+  const { userAvatar } = comment;
+
+  const renderAvatar = () => {
+    let avatar = null;
+
+    if (isAuthor) {
+      avatar = authorAvatar;
+    } else {
+      avatar = userAvatar ? { uri: userAvatar } : defaultAvatar;
+    }
+
+    return <Image source={avatar} style={styles.avatar} />;
+  };
+
   return (
-    <View style={styles.container}>
-      {isAuthor ? (
-        <View style={styles.rightAvatar}>
-          <Text style={styles.authorUsername}>{username}</Text>
-          <Image
-            source={
-              userAvatar ? { uri: userAvatar } : require("./default_avatar.png")
-            }
-            style={styles.avatar}
-          />
-        </View>
-      ) : (
-        <View style={styles.leftAvatar}>
-          <Image
-            source={
-              userAvatar ? { uri: userAvatar } : require("./default_avatar.png")
-            }
-            style={styles.avatar}
-          />
-          <Text style={styles.otherUsername}>{username}</Text>
-        </View>
-      )}
-
-      <View style={styles.commentDetails}>
-        <Text style={styles.commentText}>{commentText}</Text>
-        <Text style={styles.commentDate}>{commentDate}</Text>
+    <View style={styles.commentContainer}>
+      <View style={isAuthor ? styles.commentLeft : styles.commentRight}>
+        {!isAuthor && renderAvatar()}
+        <CommentTextContainer isAuthor={isAuthor}>
+          <CommentText>{comment.commentText}</CommentText>
+          <CommentDate isAuthor={isAuthor}>{comment.commentDate}</CommentDate>
+        </CommentTextContainer>
+        {isAuthor && renderAvatar()}
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
+  commentContainer: {
+    justifyContent: "space-between",
+    // alignItems: "flex-start",
+    marginVertical: 8,
+    width: "90%",
   },
-  leftAvatar: {
+  commentLeft: {
     flexDirection: "row",
-    marginRight: 8,
   },
-  rightAvatar: {
-    flexDirection: "row-reverse",
-    marginLeft: 8,
+  commentRight: {
+    flexDirection: "row",
   },
   avatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-  },
-  authorUsername: {
-    color: "#333",
-    fontWeight: "bold",
-    marginRight: 4,
-  },
-  otherUsername: {
-    color: "#333",
-    fontWeight: "bold",
-    marginLeft: 4,
-  },
-  commentDetails: {
-    flex: 1,
+    width: 25,
+    height: 25,
+    borderRadius: 25,
   },
   commentText: {
-    fontSize: 16,
-    marginBottom: 4,
+    flex: 1,
+    paddingLeft: 8,
   },
-  commentDate: {
-    fontSize: 12,
-    color: "#999",
+  commentAuthor: {
+    fontWeight: "bold",
+  },
+  commentContent: {
+    paddingTop: 4,
+    paddingBottom: 8,
   },
 });

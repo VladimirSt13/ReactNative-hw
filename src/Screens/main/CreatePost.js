@@ -14,9 +14,8 @@ import Trash from "../../img/icons/trash";
 export const CreatePost = () => {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
-  const keyboardHide = () => {
+  const keyboardHide = ({ navigation }) => {
     setKeyboardStatus(false);
-    // setUser(initialState);
     Keyboard.dismiss();
   };
 

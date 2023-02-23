@@ -9,40 +9,52 @@ import {
 } from "react-native";
 import { PostComments } from "../../Components";
 
-const initialItem = {
+const initialPost = {
   id: "20",
+  authorPostId: "124",
   img: "https://spadok.org.ua/images/karpaty-cikavi-fakty.webp",
   postName: "Forest",
   location: "Ivano-Frankivs'k Region, Ukraine",
   comments: "1",
-  commetsData: [
+  commentsData: [
     {
+      id: "1",
       authorId: "123",
-      userAvatar: "",
-      userName: "name",
+      userAvatar: "https://api.multiavatar.com/1.png",
+      author: "name",
       commentDate: "09 июня, 2020 | 09:14",
       commentText:
         "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
     },
     {
+      id: "2",
       authorId: "124",
+      userAvatar: "https://api.multiavatar.com/2.png",
       author: "name2",
-      userAvatar: "",
       commentDate: "09 июня, 2020 | 09:14",
       commentText:
         "A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.",
     },
     {
+      id: "3",
       authorId: "123",
-      userAvatar: "",
+      userAvatar: "https://api.multiavatar.com/3.png",
       author: "name",
       commentDate: "09 июня, 2020 | 09:14",
       commentText: "Thank you! That was very helpful!",
     },
+    {
+      id: "4",
+      authorId: "123",
+      userAvatar: "https://api.multiavatar.com/4.png",
+      author: "name",
+      commentDate: "09 июня, 2020 | 09:15",
+      commentText: "...!",
+    },
   ],
 };
 
-export const Comments = ({ item = initialItem, ...props }) => {
+export const Comments = ({ post = initialPost }) => {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
   const keyboardHide = () => {
     setKeyboardStatus(false);
@@ -61,9 +73,10 @@ export const Comments = ({ item = initialItem, ...props }) => {
             padding: 16,
             flex: 1,
             justifyContent: keyboardStatus ? "flex-end" : "space-between",
+            width: "100%",
           }}
         >
-          <PostComments item={item} {...props} />
+          <PostComments post={post} />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

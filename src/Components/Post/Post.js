@@ -17,6 +17,7 @@ export const Post = ({ item }) => {
       <Pressable onPress={() => navigation.navigate("Publication")}>
         <PostImage source={{ uri: item.img }} />
       </Pressable>
+
       <PostTitle>{item.postName}</PostTitle>
 
       <ActionsContainer>

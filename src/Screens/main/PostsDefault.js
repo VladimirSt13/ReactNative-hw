@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Text, View, Image, StyleSheet, FlatList } from "react-native";
-import { Post } from "../../Components/Post/Post";
+import { Post } from "../../Components";
 import avatar from "../../img/Home/avatar.jpg";
 
 const publications = require("../../publications.json");
