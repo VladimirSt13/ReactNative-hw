@@ -3,7 +3,9 @@ import { View, Pressable, Image } from "react-native";
 
 export const Container = styled(View)`
   position: absolute;
-  top: -152px;
+  top: -66px;
+  left: 50%;
+  transform: translateX(-60px);
   width: 120px;
   height: 120px;
   background-color: #f6f6f6;

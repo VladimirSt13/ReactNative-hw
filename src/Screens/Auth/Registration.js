@@ -59,9 +59,8 @@ export const Registration = ({ navigation, route }) => {
       <Wallpaper image={photoBG}>
         <TouchableWithoutFeedback onPress={keyboardHide}>
           <FormContainer pt="92" pb="44" keyboardStatus={keyboardStatus}>
+            <Avatar />
             <Form>
-              <Avatar />
-
               <Title keyboardStatus={keyboardStatus}>Реєстрація</Title>
 
               <Input

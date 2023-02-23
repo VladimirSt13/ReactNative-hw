@@ -21,12 +21,12 @@ export const Post = ({ item }) => {
       <PostTitle>{item.postName}</PostTitle>
 
       <ActionsContainer>
-        <PressableContainer>
+        <PressableContainer onPress={() => console.log("press comment")}>
           <CommentIcon width={18} height={18} />
           <CommentsNumber>{item.comments}</CommentsNumber>
         </PressableContainer>
 
-        <PressableContainer>
+        <PressableContainer onPress={() => console.log("press location")}>
           <LocationIcon width={18} height={18} />
           <Location>{item.location}</Location>
         </PressableContainer>
