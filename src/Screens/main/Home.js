@@ -7,7 +7,7 @@ import User from "../../img/icons/user.svg";
 import LogOutIcon from "../../img/icons/logOut.svg";
 import BackArrow from "../../img/icons/backArrow.svg";
 import { CreatePost } from "./CreatePost";
-import { Posts } from "./PostsDefault";
+import { PostsHome } from "./PostsHome";
 import { Profile } from "./Profile";
 import { Comments } from "./Comments";
 
@@ -23,7 +23,7 @@ const Home = ({ navigation, route }) => {
   };
   return (
     <MainBottomTab.Navigator
-      initialRouteName="Profile"
+      initialRouteName="Posts"
       screenOptions={{
         tabBarHideOnKeyboard: true,
         headerStyle: {
@@ -50,8 +50,8 @@ const Home = ({ navigation, route }) => {
       }}
     >
       <MainBottomTab.Screen
-        name="Posts"
-        component={Posts}
+        name="PostsHome"
+        component={PostsHome}
         options={{
           title: "Публікації",
           headerRight: () => (
@@ -62,9 +62,12 @@ const Home = ({ navigation, route }) => {
               onPress={handleLogout}
             />
           ),
-          tabBarButton: ({ onPress, accessibilityLabel }) => (
-            <ButtonIcon icon={Grid} size={40} onPress={onPress} />
-          ),
+          tabBarButton: ({ onPress }) => {
+            console.log(navigation);
+            return <ButtonIcon icon={Grid} size={40} onPress={onPress} />;
+          },
+          // tabBarVisible: navigation.state.index === 0,
+          // tabBarVisible: navigation.dangerouslyGetState().index === 0,
         }}
       />
       <MainBottomTab.Screen
@@ -81,7 +84,7 @@ const Home = ({ navigation, route }) => {
               onPress={handleBack}
             />
           ),
-          tabBarButton: ({ onPress, accessibilityLabel }) => (
+          tabBarButton: ({ onPress }) => (
             <ButtonRound
               icon={Plus}
               size={40}

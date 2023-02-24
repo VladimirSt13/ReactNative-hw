@@ -1,3 +1,4 @@
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { Text, View, Image, StyleSheet, FlatList } from "react-native";
 import { Post } from "../../Components";

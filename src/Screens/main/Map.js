@@ -1,4 +1,5 @@
 import { Text, View, StyleSheet } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 export const Map = () => {
   return (

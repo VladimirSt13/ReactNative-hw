@@ -1,3 +1,4 @@
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import {
   View,
@@ -55,6 +56,10 @@ const initialPost = {
 };
 
 export const Comments = ({ post = initialPost }) => {
+  const { params } = useRoute();
+  const navigation = useNavigation();
+  const { photo, id } = params;
+
   const [keyboardStatus, setKeyboardStatus] = useState(false);
   const keyboardHide = () => {
     setKeyboardStatus(false);
