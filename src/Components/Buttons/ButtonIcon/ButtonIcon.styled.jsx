@@ -8,4 +8,9 @@ export const ButtonIconStyled = styled(Pressable)`
   ${(props) => props.ml && `margin-left:${props.ml}px`};
   ${(props) => props.w && `width:${props.size}px`};
   ${(props) => props.h && `height:${props.size}px`};
+  /* ${(props) => props.color && `fill:${props.color}`}; */
+  /* background-color: #afafaf;
+  color: #000;
+  fill: #315ed8;
+  stroke: #315ed8;*/
 `;

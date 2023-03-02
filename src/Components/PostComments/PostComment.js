@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { View, Text, StyleSheet, Image } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import {
-  CommentTextContainer,
-  CommentText,
   CommentDate,
-} from "./PostCommets.styled";
+  CommentText,
+  CommentTextContainer,
+} from "./PostComments.styled";
 
 const defaultAvatar = require("../../img/default_avatar.png");
 const authorAvatar = require("../../img/Home/avatar.jpg");

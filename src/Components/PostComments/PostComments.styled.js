@@ -1,4 +1,4 @@
-import { Image, Text, View, Pressable } from "react-native";
+import { Image, Text, View } from "react-native";
 import styled, { css } from "styled-components";
 
 export const PostContainer = styled(View)`

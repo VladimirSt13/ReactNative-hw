@@ -1,15 +1,27 @@
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { ButtonIcon } from "../../Components";
-import { ButtonRound } from "../../Components";
-import Grid from "../../img/icons/grid.svg";
-import Plus from "../../img/icons/plus.svg";
-import User from "../../img/icons/user.svg";
-import LogOutIcon from "../../img/icons/logOut.svg";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { ButtonIcon, ButtonRound } from "../../Components";
 import BackArrow from "../../img/icons/backArrow.svg";
+import LogOutIcon from "../../img/icons/logOut.svg";
+import Plus from "../../img/icons/plus.svg";
 import { CreatePost } from "./CreatePost";
 import { PostsHome } from "./PostsHome";
 import { Profile } from "./Profile";
-import { Comments } from "./Comments";
+
+function getTabBarVisible(route) {
+  const routeName = getFocusedRouteNameFromRoute(route);
+
+  if (routeName === "Comments" || routeName === "Map") {
+    return { display: "none" };
+  }
+  return {
+    height: 83,
+    paddingTop: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  };
+}
 
 const MainBottomTab = createBottomTabNavigator();
 const Home = ({ navigation, route }) => {
@@ -24,7 +36,7 @@ const Home = ({ navigation, route }) => {
   return (
     <MainBottomTab.Navigator
       initialRouteName="Posts"
-      screenOptions={{
+      screenOptions={({ route }) => ({
         tabBarHideOnKeyboard: true,
         headerStyle: {
           height: 88,
@@ -37,22 +49,16 @@ const Home = ({ navigation, route }) => {
           fontSize: 17,
           color: "#212121",
         },
-
-        //=================================
         activeTintColor: "#8B0000",
         inactiveTintColor: "gray",
         tabBarShowLabel: false,
-        tabBarStyle: {
-          height: 83,
-          paddingTop: 16,
-          alignItems: "center",
-        },
-      }}
+        tabBarStyle: getTabBarVisible(route),
+      })}
     >
       <MainBottomTab.Screen
         name="PostsHome"
         component={PostsHome}
-        options={{
+        options={({ route }) => ({
           title: "Публікації",
           headerRight: () => (
             <ButtonIcon
@@ -62,18 +68,32 @@ const Home = ({ navigation, route }) => {
               onPress={handleLogout}
             />
           ),
-          tabBarButton: ({ onPress }) => {
-            console.log(navigation);
-            return <ButtonIcon icon={Grid} size={40} onPress={onPress} />;
+          // tabBarButton: (accessibilityState, onPress) => {
+          //   return (
+          //     <Ionicons
+          //       name="grid-outline"
+          //       size={24}
+          //       color={accessibilityState.selected ? "#ff6c00" : "#212121"}
+          //       onPress={onPress}
+          //     />
+          //   );
+          // },
+          tabBarButton: ({ accessibilityState, onPress }) => {
+            return (
+              <Ionicons
+                name="grid-outline"
+                size={24}
+                color={accessibilityState.selected ? "#ff6c00" : "#212121"}
+                onPress={onPress}
+              />
+            );
           },
-          // tabBarVisible: navigation.state.index === 0,
-          // tabBarVisible: navigation.dangerouslyGetState().index === 0,
-        }}
+          // tabBarStyle: getTabBarVisible(route),
+        })}
       />
       <MainBottomTab.Screen
         name="CreatePost"
         component={CreatePost}
-        // component={Comments}
         options={{
           title: "Створити пост",
           headerLeft: () => (
@@ -96,14 +116,13 @@ const Home = ({ navigation, route }) => {
           ),
 
           headerStyle: {},
-          tabBarVisible: false,
           tabBarStyle: { display: "none" },
         }}
       />
       <MainBottomTab.Screen
         name="Profile"
         component={Profile}
-        options={{
+        options={({ route }) => ({
           title: "Профіль",
           headerLeft: () => (
             <ButtonIcon
@@ -113,12 +132,19 @@ const Home = ({ navigation, route }) => {
               onPress={handleBack}
             />
           ),
-          tabBarButton: ({ onPress, accessibilityLabel }) => (
-            <ButtonIcon icon={User} size={40} onPress={onPress} />
-          ),
+          tabBarButton: ({ accessibilityState, onPress }) => {
+            return (
+              <Feather
+                name="user"
+                size={24}
+                color={accessibilityState.selected ? "#ff6c00" : "#212121"}
+                onPress={onPress}
+              />
+            );
+          },
           headerShown: false,
-          // tabBarStyle: { display: "none" },
-        }}
+          // tabBarStyle: getTabBarVisible(route),
+        })}
       />
     </MainBottomTab.Navigator>
   );

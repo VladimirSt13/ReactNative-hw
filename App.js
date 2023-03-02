@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect, useState } from "react";
 
 import { useRoute } from "./src/router";
 

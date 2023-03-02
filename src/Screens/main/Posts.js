@@ -1,6 +1,5 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
-import { Text, View, Image, StyleSheet, FlatList } from "react-native";
+import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { Post } from "../../Components";
 import avatar from "../../img/Home/avatar.jpg";
 

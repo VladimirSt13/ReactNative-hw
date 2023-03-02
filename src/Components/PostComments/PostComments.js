@@ -7,11 +7,9 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { PostImage } from "./PostCommets.styled";
+import { PostImage } from "./PostComments.styled";
 import { PostComment } from "./PostComment";
 import { FontAwesome } from "@expo/vector-icons";
-
-const userId = "123";
 
 export const PostComments = ({ ...props }) => {
   const [comment, setComment] = useState("");

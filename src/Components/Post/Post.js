@@ -1,19 +1,15 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { Text, View, Image, StyleSheet, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import CommentIcon from "../../img/icons/comment";
 import LocationIcon from "../../img/icons/location";
 
-import { Map } from "../../Screens/main/Map";
-import { Comments } from "../../Screens/main/Comments";
-
 import {
+  ActionsContainer,
+  CommentsNumber,
+  Location,
   PostContainer,
   PostImage,
   PostTitle,
-  ActionsContainer,
   PressableContainer,
-  CommentsNumber,
-  Location,
 } from "./Post.styled";
 
 export const Post = ({ item }) => {
