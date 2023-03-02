@@ -1,25 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
   Keyboard,
-  View,
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
-  // Dimensions,
+  TouchableWithoutFeedback,
 } from "react-native";
 
 import photoBG from "../../img/Photo-BG.jpg";
-import { FormContainer, Form } from "./Auth.styled";
+import { Form, FormContainer } from "./Auth.styled";
 
 import {
-  Wallpaper,
   Avatar,
-  Title,
-  Input,
   Button,
+  Input,
   Link,
-} from "../../Components";
+  Title,
+  Wallpaper,
+} from "../../components";
 
 const initialState = {
   avatar: "",

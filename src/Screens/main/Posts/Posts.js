@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
-import { Post } from "../../Components";
+import { Post } from "../../../components";
 import avatar from "../../img/Home/avatar.jpg";
 
-const publications = require("../../publications.json");
+const publications = require("../../../publications.json");
 
 export const Posts = ({ navigation }) => {
   const [posts, setPosts] = useState(publications);

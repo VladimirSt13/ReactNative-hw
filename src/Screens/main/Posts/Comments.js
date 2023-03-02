@@ -1,14 +1,13 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
   Keyboard,
+  KeyboardAvoidingView,
   Platform,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
-import { PostComments } from "../../Components";
+import { PostComments } from "../../../components";
 
 const initialPost = {
   id: "20",

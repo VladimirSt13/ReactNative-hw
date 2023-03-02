@@ -1,10 +1,10 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Posts } from "./Posts";
+import { useEffect } from "react";
+import { Text } from "react-native";
 import { Comments } from "./Comments";
 import { Map } from "./Map";
-import { Text, View } from "react-native";
+import { Posts } from "./Posts/Posts";
 Text;
 
 const PostsStack = createStackNavigator();

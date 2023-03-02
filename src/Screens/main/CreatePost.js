@@ -1,14 +1,12 @@
 import { useState } from "react";
 import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
   Keyboard,
+  KeyboardAvoidingView,
   Platform,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
-import { AddPhoto, Button, ButtonRound } from "../../Components";
-import { Input } from "../../Components";
+import { AddPhoto, Button, ButtonRound, Input } from "../../components";
 import Trash from "../../img/icons/trash";
 
 export const CreatePost = () => {

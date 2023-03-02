@@ -1,19 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
   Keyboard,
-  View,
+  KeyboardAvoidingView,
   StyleSheet,
   // Dimensions,
   Text,
+  TouchableWithoutFeedback,
 } from "react-native";
 
 import photoBG from "../../img/Photo-BG.jpg";
-import { FormContainer, Form } from "./Auth.styled";
+import { Form, FormContainer } from "./Auth.styled";
 
-import { Wallpaper, Title, Input, Button, Link } from "../../Components";
-import Home from "../main/Home";
+import { Button, Input, Link, Title, Wallpaper } from "../../components";
 
 const initialState = {
   email: "",

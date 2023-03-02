@@ -1,4 +1,4 @@
-import Auth from "./Screens/auth/Auth";
+import Auth from "./screens/auth/Auth";
 
 export const useRoute = (isAuth) => {
   if (!isAuth) {

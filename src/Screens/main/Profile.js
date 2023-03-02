@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { View, FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 
-import { Wallpaper, Avatar, Post } from "../../Components";
+import { Avatar, Post, Wallpaper } from "../../components";
 
 import { ProfileContainer, UserName } from "./Profile.styled";
 

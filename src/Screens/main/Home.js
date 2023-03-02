@@ -1,7 +1,7 @@
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import { ButtonIcon, ButtonRound } from "../../Components";
+import { ButtonIcon, ButtonRound } from "../../components";
 import BackArrow from "../../img/icons/backArrow.svg";
 import LogOutIcon from "../../img/icons/logOut.svg";
 import Plus from "../../img/icons/plus.svg";
@@ -68,16 +68,6 @@ const Home = ({ navigation, route }) => {
               onPress={handleLogout}
             />
           ),
-          // tabBarButton: (accessibilityState, onPress) => {
-          //   return (
-          //     <Ionicons
-          //       name="grid-outline"
-          //       size={24}
-          //       color={accessibilityState.selected ? "#ff6c00" : "#212121"}
-          //       onPress={onPress}
-          //     />
-          //   );
-          // },
           tabBarButton: ({ accessibilityState, onPress }) => {
             return (
               <Ionicons
@@ -88,7 +78,6 @@ const Home = ({ navigation, route }) => {
               />
             );
           },
-          // tabBarStyle: getTabBarVisible(route),
         })}
       />
       <MainBottomTab.Screen
@@ -114,8 +103,6 @@ const Home = ({ navigation, route }) => {
               mr={32}
             />
           ),
-
-          headerStyle: {},
           tabBarStyle: { display: "none" },
         }}
       />
