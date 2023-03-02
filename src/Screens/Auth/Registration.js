@@ -17,7 +17,7 @@ import {
   Link,
   Title,
   Wallpaper,
-} from "../../components";
+} from "../../Components";
 
 const initialState = {
   avatar: "",

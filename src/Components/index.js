@@ -7,5 +7,6 @@ export { Input } from "./Input/Input";
 export { Link } from "./Link/Link";
 export { Post } from "./Post/Post";
 export { PostComments } from "./PostComments/PostComments";
+export { Profile } from "./Profile/Profile";
 export { Title } from "./Title/Title";
 export { Wallpaper } from "./Wallpaper/Wallpaper";

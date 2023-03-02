@@ -1,15 +1,15 @@
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import { ButtonIcon, ButtonRound } from "../../components";
+import { ButtonIcon, ButtonRound } from "../../Components";
+import { Profile } from "../../Components/Profile/Profile";
 import BackArrow from "../../img/icons/backArrow.svg";
 import LogOutIcon from "../../img/icons/logOut.svg";
 import Plus from "../../img/icons/plus.svg";
 import { CreatePost } from "./CreatePost";
 import { PostsHome } from "./PostsHome";
-import { Profile } from "./Profile";
 
-function getTabBarVisible(route) {
+const getTabBarVisible = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route);
 
   if (routeName === "Comments" || routeName === "Map") {
@@ -21,7 +21,17 @@ function getTabBarVisible(route) {
     alignItems: "center",
     justifyContent: "center",
   };
-}
+};
+
+const getHeaderBarVisible = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route);
+
+  if (routeName === "Comments" || routeName === "Map") {
+    return false;
+  }
+
+  return true;
+};
 
 const MainBottomTab = createBottomTabNavigator();
 const Home = ({ navigation, route }) => {
@@ -53,6 +63,7 @@ const Home = ({ navigation, route }) => {
         inactiveTintColor: "gray",
         tabBarShowLabel: false,
         tabBarStyle: getTabBarVisible(route),
+        headerShown: getHeaderBarVisible(route),
       })}
     >
       <MainBottomTab.Screen
@@ -74,6 +85,7 @@ const Home = ({ navigation, route }) => {
                 name="grid-outline"
                 size={24}
                 color={accessibilityState.selected ? "#ff6c00" : "#212121"}
+                style={{ marginTop: 6 }}
                 onPress={onPress}
               />
             );
@@ -125,12 +137,12 @@ const Home = ({ navigation, route }) => {
                 name="user"
                 size={24}
                 color={accessibilityState.selected ? "#ff6c00" : "#212121"}
+                style={{ marginTop: 6 }}
                 onPress={onPress}
               />
             );
           },
           headerShown: false,
-          // tabBarStyle: getTabBarVisible(route),
         })}
       />
     </MainBottomTab.Navigator>

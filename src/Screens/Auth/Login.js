@@ -11,7 +11,7 @@ import {
 import photoBG from "../../img/Photo-BG.jpg";
 import { Form, FormContainer } from "./Auth.styled";
 
-import { Button, Input, Link, Title, Wallpaper } from "../../components";
+import { Button, Input, Link, Title, Wallpaper } from "../../Components";
 
 const initialState = {
   email: "",

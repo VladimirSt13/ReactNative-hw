@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { PostComments } from "../../../components";
+import { PostComments } from "../../../Components";
 
 const initialPost = {
   id: "20",

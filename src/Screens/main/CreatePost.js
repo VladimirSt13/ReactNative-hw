@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { AddPhoto, Button, ButtonRound, Input } from "../../components";
+import { AddPhoto, Button, ButtonRound, Input } from "../../Components";
 import Trash from "../../img/icons/trash";
 
 export const CreatePost = () => {

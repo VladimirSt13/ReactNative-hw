@@ -1,5 +1,5 @@
+import { Text, View } from "react-native";
 import styled from "styled-components";
-import { View, Text } from "react-native";
 
 export const ProfileContainer = styled(View)`
   min-width: 375px;
