@@ -1,13 +1,14 @@
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+
 import { ButtonIcon, ButtonRound } from "../../Components";
-import { Profile } from "../../Components/Profile/Profile";
 import BackArrow from "../../img/icons/backArrow.svg";
 import LogOutIcon from "../../img/icons/logOut.svg";
 import Plus from "../../img/icons/plus.svg";
 import { CreatePost } from "./CreatePost";
 import { PostsHome } from "./PostsHome";
+import { Profile } from "./Profile/Profile";
 
 const getTabBarVisible = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route);
@@ -34,14 +35,15 @@ const getHeaderBarVisible = (route) => {
 };
 
 const MainBottomTab = createBottomTabNavigator();
-const Home = ({ navigation, route }) => {
+
+export const Home = ({ navigation, route }) => {
   const handleLogout = () => {
     // код для реєстрації користувача
     navigation.navigate("Login");
   };
 
   const handleBack = () => {
-    navigation.goBack();
+    navigation.navigate("PostsHome");
   };
   return (
     <MainBottomTab.Navigator
@@ -148,5 +150,3 @@ const Home = ({ navigation, route }) => {
     </MainBottomTab.Navigator>
   );
 };
-
-export default Home;

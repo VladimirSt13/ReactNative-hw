@@ -1,7 +1,6 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import CommentIcon from "../../img/icons/comment";
 import LocationIcon from "../../img/icons/location";
-
 import {
   ActionsContainer,
   CommentsNumber,
@@ -33,13 +32,18 @@ export const Post = ({ item }) => {
 
       <ActionsContainer>
         <PressableContainer onPress={gotToComments}>
-          <CommentIcon width={18} height={18} />
+          <Ionicons
+            name="chatbubble-outline"
+            size={18}
+            color="#BDBDBD"
+            style={{ transform: [{ scaleX: -1 }] }}
+          />
           <CommentsNumber>{comments}</CommentsNumber>
         </PressableContainer>
 
         <PressableContainer onPress={goToMap}>
           <LocationIcon width={18} height={18} />
-          <Location>{location}</Location>
+          <Location>{`${location.region}, ${location.country}`}</Location>
         </PressableContainer>
       </ActionsContainer>
     </PostContainer>

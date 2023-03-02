@@ -2,7 +2,9 @@ import { Platform } from "react-native";
 import { ButtonIconStyled } from "./ButtonIcon.styled";
 
 export const ButtonIcon = ({
-  // onPress = () => { },
+  // onPress = () => {
+  // console.log(icon);
+  // },
   icon: Icon,
   ...props
 }) => {

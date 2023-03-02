@@ -1,7 +1,3 @@
-import { Comments } from "./Comments";
-import { CreatePosts } from "./CreatePosts";
-import { Map } from "./Map";
-import { Posts } from "./PostsDefault";
-import { Profile } from "./Profile";
-
-export { Comments, CreatePosts, Map, Posts, Profile };
+export { CreatePost } from "./CreatePost";
+export { Home } from "./Home";
+export { PostsHome } from "./PostsHome";

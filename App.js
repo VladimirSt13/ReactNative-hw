@@ -2,8 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
-
-import { useRoute } from "./src/router";
+import { Starting } from "./src/Starting";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -19,7 +18,6 @@ const App = () => {
     async function prepare() {
       try {
         await SplashScreen.hideAsync();
-        console.log("Splash screen hidden");
       } catch (e) {
         console.warn(e);
       } finally {
@@ -31,15 +29,14 @@ const App = () => {
   }, []);
 
   if (!isAppReady || !fontsLoaded) {
-    console.log("loading fonts or app is not ready");
     return null;
   }
 
-  console.log("fonts loaded or app is ready");
-
-  const routing = useRoute(false);
-
-  return <NavigationContainer>{routing}</NavigationContainer>;
+  return (
+    <NavigationContainer>
+      <Starting />
+    </NavigationContainer>
+  );
 };
 
 export default App;
