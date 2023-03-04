@@ -1,6 +1,4 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useEffect } from "react";
 import { Text } from "react-native";
 import { Comments, Map, Posts } from "./nestedPosts";
 Text;
@@ -8,14 +6,12 @@ Text;
 const PostsStack = createStackNavigator();
 
 export const PostsHome = ({ route }) => {
-  console.log("🚀 ~ file: PostsHome.js:11 ~ PostsHome ~ route:", route);
-  const { params } = useRoute();
-  console.log("🚀 ~ file: PostsHome.js:12 ~ PostsHome ~ params:", params);
-  const navigation = useNavigation();
+  // const { params } = useRoute();
+  // const navigation = useNavigation();
 
-  useEffect(() => {
-    navigation.navigate("Posts");
-  }, [params]);
+  // useEffect(() => {
+  //   navigation.navigate("Posts");
+  // }, [params]);
 
   return (
     <PostsStack.Navigator

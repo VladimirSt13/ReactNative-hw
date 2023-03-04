@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import React, { useState } from "react";
 
 import {
@@ -13,8 +14,11 @@ import Trash from "../../img/icons/trash";
 
 const initialState = {
   locationName: "",
-  location: "",
-  photo: "",
+  location: {
+    region: "",
+    country: "",
+  },
+  img: "",
 };
 
 export const CreatePost = ({ navigation }) => {
@@ -27,18 +31,24 @@ export const CreatePost = ({ navigation }) => {
   };
 
   const handlePhoto = (photo) => {
-    handlePost("photo", photo);
-    console.log("🚀 ~ file: CreatePost.js:30 ~ handlePhoto ~ photo:", post);
-
-    return photo;
+    handlePost("img", photo);
   };
 
-  const handlePost = (field, value) =>
+  const handlePost = (field, value) => {
     setPost((prevState) => ({ ...prevState, [field]: value }));
+  };
 
   const submitPost = () => {
     keyboardHide();
-    navigation.navigate("PostsHome", post);
+    const formattedPost = {
+      ...post,
+      location: {
+        region: post.location.split(",")[0],
+        country: post.location.split(",")[1],
+      },
+      id: nanoid(),
+    };
+    navigation.navigate("Posts", { formattedPost });
   };
 
   return (
@@ -60,7 +70,7 @@ export const CreatePost = ({ navigation }) => {
             <View>
               <Input
                 value={null}
-                fieldName="locationName"
+                fieldName="postName"
                 placeholder="Назва"
                 setKeyboardStatus={setKeyboardStatus}
                 handleInput={handlePost}

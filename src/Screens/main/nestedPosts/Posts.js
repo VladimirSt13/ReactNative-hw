@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { Post } from "../../../Components";
 
@@ -6,8 +6,15 @@ import avatar from "../../../img/Home/avatar.jpg";
 
 const publications = require("../../../publications.json");
 
-export const Posts = ({ navigation }) => {
+export const Posts = ({ route }) => {
+  console.log("🚀 ~ file: Posts.js:10 ~ Posts ~ route:", route);
   const [posts, setPosts] = useState(publications);
+
+  useEffect(() => {
+    if (route.params) {
+      setPosts((prevState) => [...prevState, route.params.formattedPost]);
+    }
+  }, [route.params]);
 
   return (
     <View style={styles.container}>
