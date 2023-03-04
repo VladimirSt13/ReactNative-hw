@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { StyleSheet } from "react-native";
+import { Camera, CameraType, getCameraPermissionsAsync } from "expo-camera";
+import React, { useEffect, useRef, useState } from "react";
+import { Alert, Pressable } from "react-native";
 import PhotoIcon from "../../img/icons/photo";
+
 import {
   CameraStyled,
   MakePhoto,
@@ -9,27 +11,56 @@ import {
   Text,
 } from "./AddPhoto.styled";
 
-export const AddPhoto = ({ handlePhoto }) => {
-  const [photo, setPhoto] = useState(null);
-  const [camera, setCamera] = useState(null);
+export const AddPhoto = ({ photo, setPhoto }) => {
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const cameraRef = useRef();
+
+  const getPermissions = async () => {
+    const cameraPermission = await getCameraPermissionsAsync();
+    return cameraPermission.granted;
+  };
+
+  if (!getPermissions()) {
+    return Alert.alert(
+      "Permissions Required!",
+      "You need to provide the permissions to access the camera",
+      [{ text: "Got it" }]
+    );
+  }
 
   const takePhoto = async () => {
-    const photo = await camera.takePictureAsync();
+    console.log(
+      "🚀 ~ file: AddPhoto.js:40 ~ takePhoto ~ takePhoto:",
+      takePhoto
+    );
+    if (!cameraRef.current) return console.error("🚀 Camera error");
+
+    const photo = await cameraRef?.current.takePictureAsync();
     setPhoto(photo.uri);
-    handlePhoto(photo.uri);
+  };
+
+  const handleChangePhoto = () => {
+    if (photo) {
+      setPhoto(null);
+    }
   };
 
   return (
     <>
       <PhotoContainer>
-        <CameraStyled ref={setCamera}>
-          {photo && <Photo source={{ uri: photo }} />}
-        </CameraStyled>
-        <MakePhoto onPress={takePhoto}>
-          <PhotoIcon width={24} height={24} />
-        </MakePhoto>
+        {photo ? (
+          <Photo source={{ uri: photo }} />
+        ) : (
+          <CameraStyled ref={cameraRef}>
+            <MakePhoto onPress={takePhoto}>
+              <PhotoIcon width={24} height={24} />
+            </MakePhoto>
+          </CameraStyled>
+        )}
       </PhotoContainer>
-      <Text>{!photo ? "Завантажте фото" : "Редагувати фото"}</Text>
+      <Pressable onPress={handleChangePhoto}>
+        <Text>{!photo ? "Завантажте фото" : "Редагувати фото"}</Text>
+      </Pressable>
     </>
   );
 };

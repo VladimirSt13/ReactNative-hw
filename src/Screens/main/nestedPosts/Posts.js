@@ -4,10 +4,10 @@ import { Post } from "../../../Components";
 
 import avatar from "../../../img/Home/avatar.jpg";
 
-const publications = require("../../../publications.json");
+// const publications = require("../../../publications.json");
+const publications = [];
 
 export const Posts = ({ route }) => {
-  console.log("🚀 ~ file: Posts.js:10 ~ Posts ~ route:", route);
   const [posts, setPosts] = useState(publications);
 
   useEffect(() => {

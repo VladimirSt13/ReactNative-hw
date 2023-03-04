@@ -12,26 +12,20 @@ import { Button, ButtonRound, Input } from "../../Components";
 import { AddPhoto } from "../../Components/AddPhoto/AddPhoto";
 import Trash from "../../img/icons/trash";
 
-const initialState = {
+const initialPost = {
   locationName: "",
-  location: {
-    region: "",
-    country: "",
-  },
+  location: "",
   img: "",
 };
 
 export const CreatePost = ({ navigation }) => {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
-  const [post, setPost] = useState(initialState);
+  const [post, setPost] = useState(initialPost);
+  const [photo, setPhoto] = useState(null);
 
   const keyboardHide = () => {
     setKeyboardStatus(false);
     Keyboard.dismiss();
-  };
-
-  const handlePhoto = (photo) => {
-    handlePost("img", photo);
   };
 
   const handlePost = (field, value) => {
@@ -40,17 +34,27 @@ export const CreatePost = ({ navigation }) => {
 
   const submitPost = () => {
     keyboardHide();
+    console.log("🚀 ~ file: CreatePost.js:56 ~ submitPost ~ post:", post);
+
     const formattedPost = {
       ...post,
+      img: photo,
       location: {
         region: post.location.split(",")[0],
         country: post.location.split(",")[1],
       },
       id: nanoid(),
     };
+    setPost(initialPost);
+
     navigation.navigate("Posts", { formattedPost });
   };
 
+  const handleTrash = () => {
+    console.log("🚀 ~ file: CreatePost.js:55 ~ handleTrash ~ handleTrash");
+    setPost(initialPost);
+    setPhoto(null);
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -65,7 +69,7 @@ export const CreatePost = ({ navigation }) => {
           }}
         >
           <View>
-            <AddPhoto handlePhoto={handlePhoto} />
+            <AddPhoto photo={photo} setPhoto={setPhoto} />
 
             <View>
               <Input
@@ -91,7 +95,7 @@ export const CreatePost = ({ navigation }) => {
                 color={"#E1E1E1"}
                 ml="auto"
                 mr="auto"
-                // onPress={onPress}
+                onPress={handleTrash}
               />
             )}
           </View>
