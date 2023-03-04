@@ -1,23 +1,31 @@
 import { useState } from "react";
-import { Photo, PhotoContainer, MakePhoto, Text } from "./AddPhoto.styled";
+import { StyleSheet } from "react-native";
 import PhotoIcon from "../../img/icons/photo";
+import {
+  CameraStyled,
+  MakePhoto,
+  Photo,
+  PhotoContainer,
+  Text,
+} from "./AddPhoto.styled";
 
-export const AddPhoto = () => {
+export const AddPhoto = ({ handlePhoto }) => {
   const [photo, setPhoto] = useState(null);
+  const [camera, setCamera] = useState(null);
 
-  const handlePhoto = () => {
-    if (!photo) {
-      return setPhoto({
-        uri: "https://kraina-ua.com/up/temp/20191211133441.jpg",
-      });
-    }
-    return setPhoto(null);
+  const takePhoto = async () => {
+    const photo = await camera.takePictureAsync();
+    setPhoto(photo.uri);
+    handlePhoto(photo.uri);
   };
+
   return (
     <>
       <PhotoContainer>
-        <Photo source={photo} />
-        <MakePhoto onPress={handlePhoto}>
+        <CameraStyled ref={setCamera}>
+          {photo && <Photo source={{ uri: photo }} />}
+        </CameraStyled>
+        <MakePhoto onPress={takePhoto}>
           <PhotoIcon width={24} height={24} />
         </MakePhoto>
       </PhotoContainer>

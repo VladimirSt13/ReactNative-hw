@@ -47,7 +47,8 @@ export const Home = ({ navigation, route }) => {
   };
   return (
     <MainBottomTab.Navigator
-      initialRouteName="Posts"
+      // initialRouteName="Posts"
+      initialRouteName="CreatePost"
       screenOptions={({ route }) => ({
         tabBarHideOnKeyboard: true,
         headerStyle: {

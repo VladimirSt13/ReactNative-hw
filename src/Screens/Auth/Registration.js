@@ -65,7 +65,7 @@ export const Registration = ({ navigation, route }) => {
                 value={user.login}
                 fieldName="login"
                 placeholder="Логін"
-                handleUser={handleUser}
+                handleInput={handleUser}
                 setKeyboardStatus={setKeyboardStatus}
               />
 
@@ -73,7 +73,7 @@ export const Registration = ({ navigation, route }) => {
                 value={user.email}
                 fieldName="email"
                 placeholder="Адреса електронної пошти"
-                handleUser={handleUser}
+                handleInput={handleUser}
                 setKeyboardStatus={setKeyboardStatus}
               />
 
@@ -81,7 +81,7 @@ export const Registration = ({ navigation, route }) => {
                 value={user.password}
                 fieldName="password"
                 placeholder="Пароль"
-                handleUser={handleUser}
+                handleInput={handleUser}
                 setKeyboardStatus={setKeyboardStatus}
               />
 

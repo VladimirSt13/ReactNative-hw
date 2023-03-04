@@ -7,8 +7,10 @@ Text;
 
 const PostsStack = createStackNavigator();
 
-export const PostsHome = () => {
+export const PostsHome = ({ route }) => {
+  console.log("🚀 ~ file: PostsHome.js:11 ~ PostsHome ~ route:", route);
   const { params } = useRoute();
+  console.log("🚀 ~ file: PostsHome.js:12 ~ PostsHome ~ params:", params);
   const navigation = useNavigation();
 
   useEffect(() => {
