@@ -1,4 +1,5 @@
-import { Camera, CameraType, getCameraPermissionsAsync } from "expo-camera";
+import { Camera, getCameraPermissionsAsync } from "expo-camera";
+import * as Location from "expo-location";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Pressable } from "react-native";
 import PhotoIcon from "../../img/icons/photo";
@@ -11,9 +12,21 @@ import {
   Text,
 } from "./AddPhoto.styled";
 
-export const AddPhoto = ({ photo, setPhoto }) => {
+export const AddPhoto = ({ photo, setPhoto, setLocation }) => {
   const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [errorMsg, setErrorMsg] = useState(null);
   const cameraRef = useRef();
+
+  useEffect(() => {
+    requestPermission();
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+    })();
+  }, []);
 
   const getPermissions = async () => {
     const cameraPermission = await getCameraPermissionsAsync();
@@ -29,14 +42,25 @@ export const AddPhoto = ({ photo, setPhoto }) => {
   }
 
   const takePhoto = async () => {
-    console.log(
-      "🚀 ~ file: AddPhoto.js:40 ~ takePhoto ~ takePhoto:",
-      takePhoto
-    );
-    if (!cameraRef.current) return console.error("🚀 Camera error");
+    if (!cameraRef.current) {
+      return console.error("🚀 Camera error");
+    }
 
-    const photo = await cameraRef?.current.takePictureAsync();
-    setPhoto(photo.uri);
+    try {
+      const location = await Location.getCurrentPositionAsync({});
+      setLocation(location.coords);
+
+      const photo = await cameraRef?.current.takePictureAsync();
+      setPhoto(photo.uri);
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: AddPhoto.js:56 ~ takePhoto ~ error:",
+        error.message
+      );
+      if (error.message === "Camera is not running") {
+        cameraRef.current.resumePreview();
+      }
+    }
   };
 
   const handleChangePhoto = () => {

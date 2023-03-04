@@ -17,7 +17,7 @@ export const Post = ({ item }) => {
   const navigation = useNavigation();
 
   const goToMap = () => {
-    navigation.navigate("Map", { location });
+    navigation.navigate("Map", { postName, location });
   };
 
   const gotToComments = () => {

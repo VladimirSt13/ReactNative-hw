@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Keyboard,
@@ -13,15 +13,27 @@ import { AddPhoto } from "../../Components/AddPhoto/AddPhoto";
 import Trash from "../../img/icons/trash";
 
 const initialPost = {
-  locationName: "",
+  postName: "",
   location: "",
   img: "",
+};
+const initialLocation = {
+  latitude: 0,
+  longitude: 0,
 };
 
 export const CreatePost = ({ navigation }) => {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
   const [post, setPost] = useState(initialPost);
   const [photo, setPhoto] = useState(null);
+  const [location, setLocation] = useState(initialLocation);
+
+  useEffect(() => {
+    return () => {
+      setPost(initialPost);
+      setPhoto(null);
+    };
+  }, []);
 
   const keyboardHide = () => {
     setKeyboardStatus(false);
@@ -34,27 +46,29 @@ export const CreatePost = ({ navigation }) => {
 
   const submitPost = () => {
     keyboardHide();
-    console.log("🚀 ~ file: CreatePost.js:56 ~ submitPost ~ post:", post);
 
     const formattedPost = {
       ...post,
       img: photo,
       location: {
-        region: post.location.split(",")[0],
-        country: post.location.split(",")[1],
+        region: post?.location.split(",")[0],
+        country: post?.location.split(",")[1],
+        lat: location?.latitude,
+        long: location?.longitude,
       },
       id: nanoid(),
     };
-    setPost(initialPost);
 
+    resetPost();
     navigation.navigate("Posts", { formattedPost });
   };
 
-  const handleTrash = () => {
-    console.log("🚀 ~ file: CreatePost.js:55 ~ handleTrash ~ handleTrash");
+  const resetPost = () => {
     setPost(initialPost);
     setPhoto(null);
+    setLocation(initialLocation);
   };
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -69,18 +83,22 @@ export const CreatePost = ({ navigation }) => {
           }}
         >
           <View>
-            <AddPhoto photo={photo} setPhoto={setPhoto} />
+            <AddPhoto
+              photo={photo}
+              setPhoto={setPhoto}
+              setLocation={setLocation}
+            />
 
             <View>
               <Input
-                value={null}
+                value={post.postName}
                 fieldName="postName"
                 placeholder="Назва"
                 setKeyboardStatus={setKeyboardStatus}
                 handleInput={handlePost}
               />
               <Input
-                value={null}
+                value={post.location}
                 fieldName="location"
                 placeholder="Місцевість"
                 setKeyboardStatus={setKeyboardStatus}
@@ -95,7 +113,7 @@ export const CreatePost = ({ navigation }) => {
                 color={"#E1E1E1"}
                 ml="auto"
                 mr="auto"
-                onPress={handleTrash}
+                onPress={resetPost}
               />
             )}
           </View>
