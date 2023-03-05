@@ -1,5 +1,6 @@
+import { Camera } from "expo-camera";
+import { Image, Pressable, Text as TextRN, View } from "react-native";
 import styled from "styled-components";
-import { View, Pressable, Image, Text as TextRN } from "react-native";
 
 export const PhotoContainer = styled(View)`
   margin-bottom: 8px;
@@ -11,10 +12,17 @@ export const PhotoContainer = styled(View)`
   border-radius: 8px;
   overflow: hidden;
 `;
+
+export const CameraStyled = styled(Camera)`
+  height: 100%;
+  width: 100%;
+`;
+
 export const Photo = styled(Image)`
   width: 100%;
   height: 100%;
 `;
+
 export const MakePhoto = styled(Pressable)`
   justify-content: center;
   align-items: center;
