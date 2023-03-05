@@ -1,9 +1,9 @@
 import { Camera, getCameraPermissionsAsync } from "expo-camera";
-import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Pressable } from "react-native";
 import PhotoIcon from "../../img/icons/photo";
+import { loadImage } from "../helpers/loadImage";
 
 import {
   CameraStyled,
@@ -70,21 +70,8 @@ export const AddPhoto = ({ photo, setPhoto, setLocation }) => {
     }
   };
 
-  const handleLoadPhoto = async () => {
-    console.log("handleLoadPhoto");
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setPhoto(result.assets[0].uri);
-    }
+  const handleLoadPhoto = () => {
+    loadImage(setPhoto);
   };
 
   return (
