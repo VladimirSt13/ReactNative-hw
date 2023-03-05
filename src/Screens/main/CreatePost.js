@@ -24,14 +24,30 @@ const initialLocation = {
 
 export const CreatePost = ({ navigation }) => {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
+  console.log(
+    "🚀 ~ file: CreatePost.js:27 ~ CreatePost ~ keyboardStatus:",
+    keyboardStatus
+  );
   const [post, setPost] = useState(initialPost);
   const [photo, setPhoto] = useState(null);
   const [location, setLocation] = useState(initialLocation);
 
   useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardStatus(true)
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardStatus(false)
+    );
+
     return () => {
       setPost(initialPost);
       setPhoto(null);
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
     };
   }, []);
 
@@ -51,8 +67,8 @@ export const CreatePost = ({ navigation }) => {
       ...post,
       img: photo,
       location: {
-        region: post?.location.split(",")[0],
-        country: post?.location.split(",")[1],
+        region: post?.location.split(",")[0].trim(),
+        country: post?.location.split(",")[1].trim(),
         lat: location?.latitude,
         long: location?.longitude,
       },

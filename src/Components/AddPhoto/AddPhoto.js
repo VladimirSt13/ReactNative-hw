@@ -1,4 +1,5 @@
 import { Camera, getCameraPermissionsAsync } from "expo-camera";
+import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Pressable } from "react-native";
@@ -69,6 +70,23 @@ export const AddPhoto = ({ photo, setPhoto, setLocation }) => {
     }
   };
 
+  const handleLoadPhoto = async () => {
+    console.log("handleLoadPhoto");
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setPhoto(result.assets[0].uri);
+    }
+  };
+
   return (
     <>
       <PhotoContainer>
@@ -82,7 +100,7 @@ export const AddPhoto = ({ photo, setPhoto, setLocation }) => {
           </CameraStyled>
         )}
       </PhotoContainer>
-      <Pressable onPress={handleChangePhoto}>
+      <Pressable onPress={!photo ? handleLoadPhoto : handleChangePhoto}>
         <Text>{!photo ? "Завантажте фото" : "Редагувати фото"}</Text>
       </Pressable>
     </>
