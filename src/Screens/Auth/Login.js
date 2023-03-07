@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -13,6 +13,9 @@ import { Form, FormContainer } from "./Auth.styled";
 
 import { Button, Input, Link, Title, Wallpaper } from "../../Components";
 
+import { authSignInUser } from "../../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
+
 const initialState = {
   email: "",
   password: "",
@@ -22,9 +25,27 @@ export const Login = ({ navigation, route }) => {
   const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardStatus(true)
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardStatus(false)
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  const dispatch = useDispatch();
+
   const keyboardHide = () => {
     setKeyboardStatus(false);
-    setUser(initialState);
     Keyboard.dismiss();
   };
 
@@ -36,9 +57,11 @@ export const Login = ({ navigation, route }) => {
 
   const onPress = () => navigation.navigate("Registration");
 
-  const handleLogin = () => {
-    // код для авторизації користувача
-    navigation.navigate("Home");
+  const handleSubmit = () => {
+    setKeyboardStatus(false);
+    dispatch(authSignInUser(user));
+    setUser(initialState);
+    Keyboard.dismiss();
   };
 
   return (
@@ -66,14 +89,7 @@ export const Login = ({ navigation, route }) => {
                 handleInput={handleUser}
                 setKeyboardStatus={setKeyboardStatus}
               />
-              <Button
-                onPress={() => {
-                  keyboardHide();
-                  console.log(user);
-                  handleLogin();
-                }}
-                buttonText=" Увійти"
-              />
+              <Button onPress={handleSubmit} buttonText=" Увійти" />
 
               {!keyboardStatus && (
                 <Link onPress={onPress}>

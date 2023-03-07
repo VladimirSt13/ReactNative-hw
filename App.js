@@ -7,11 +7,19 @@ import { Starting } from "./src/Starting";
 import { Provider } from "react-redux";
 import { store } from "./src/redux/store";
 
+import db from "./firebase/config";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+const auth = getAuth(db);
+
 SplashScreen.preventAutoHideAsync();
 
 const App = () => {
   const [isAppReady, setIsAppReady] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState(null);
+
+  onAuthStateChanged(auth, (user) => setUser(user));
 
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
@@ -40,7 +48,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Starting isAuth={isAuth} />
+        <Starting isAuth={user} />
       </NavigationContainer>
     </Provider>
   );

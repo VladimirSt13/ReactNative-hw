@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -33,11 +33,27 @@ export const Registration = ({ navigation, route }) => {
   const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardStatus(true)
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardStatus(false)
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   const dispatch = useDispatch();
 
   const keyboardHide = () => {
     setKeyboardStatus(false);
-    setUser(initialState);
     Keyboard.dismiss();
   };
 
@@ -53,10 +69,10 @@ export const Registration = ({ navigation, route }) => {
     setKeyboardStatus(false);
     dispatch(authSignUpUser(user));
     setUser(initialState);
+    Keyboard.dismiss();
   };
 
-  //TODO
-  // при потере фокуса инпуты сбрасываются....
+  //TODO при потерb фокуса инпуты сбрасываются....
 
   return (
     <KeyboardAvoidingView
@@ -94,7 +110,7 @@ export const Registration = ({ navigation, route }) => {
                 setKeyboardStatus={setKeyboardStatus}
               />
 
-              <Button onPress={handleSubmit()} buttonText="Зареєструватись" />
+              <Button onPress={handleSubmit} buttonText="Зареєструватись" />
 
               {!keyboardStatus && (
                 <Link onPress={onPress}>

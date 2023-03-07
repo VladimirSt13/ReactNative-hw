@@ -24,10 +24,6 @@ const initialLocation = {
 
 export const CreatePost = ({ navigation }) => {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
-  console.log(
-    "🚀 ~ file: CreatePost.js:27 ~ CreatePost ~ keyboardStatus:",
-    keyboardStatus
-  );
   const [post, setPost] = useState(initialPost);
   const [photo, setPhoto] = useState(null);
   const [location, setLocation] = useState(initialLocation);
