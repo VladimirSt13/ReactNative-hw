@@ -9,6 +9,8 @@ import Plus from "../../img/icons/plus.svg";
 import { CreatePost } from "./CreatePost";
 import { PostsHome } from "./PostsHome";
 import { Profile } from "./Profile/Profile";
+import { useDispatch } from "react-redux";
+import { authSignOutUser } from "../../redux/auth/authOperations";
 
 const getTabBarVisible = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route);
@@ -37,9 +39,11 @@ const getHeaderBarVisible = (route) => {
 const MainBottomTab = createBottomTabNavigator();
 
 export const Home = ({ navigation, route }) => {
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
-    // код для реєстрації користувача
-    navigation.navigate("Login");
+    console.log("clickLogout Home posts");
+    dispatch(authSignOutUser());
   };
 
   const handleBack = () => {

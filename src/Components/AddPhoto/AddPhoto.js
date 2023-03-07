@@ -43,16 +43,17 @@ export const AddPhoto = ({ photo, setPhoto, setLocation }) => {
   }
 
   const takePhoto = async () => {
+    console.log('takePhoto')
     if (!cameraRef.current) {
       return console.error("🚀 Camera error");
     }
 
     try {
+      const photo = await cameraRef?.current.takePictureAsync();
+      setPhoto(photo.uri);
       const location = await Location.getCurrentPositionAsync({});
       setLocation(location.coords);
 
-      const photo = await cameraRef?.current.takePictureAsync();
-      setPhoto(photo.uri);
     } catch (error) {
       console.log(
         "🚀 ~ file: AddPhoto.js:56 ~ takePhoto ~ error:",

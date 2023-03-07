@@ -59,12 +59,16 @@ export const CreatePost = ({ navigation }) => {
   const submitPost = () => {
     keyboardHide();
 
+    const locationParts = post.location ? post.location.split(",") : [];
+    const region = locationParts[0] ? locationParts[0].trim() : "";
+    const country = locationParts[1] ? locationParts[1].trim() : "";
+
     const formattedPost = {
       ...post,
       img: photo,
       location: {
-        region: post?.location.split(",")[0].trim(),
-        country: post?.location.split(",")[1].trim(),
+        region,
+        country,
         lat: location?.latitude,
         long: location?.longitude,
       },

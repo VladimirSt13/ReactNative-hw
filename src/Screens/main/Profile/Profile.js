@@ -14,13 +14,16 @@ import {
 import LogOutIcon from "../../../img/icons/logOut.svg";
 
 import publications from "../../../publications.json";
+import { useDispatch } from "react-redux";
+import { authSignOutUser } from "../../../redux/auth/authOperations";
 
-export const Profile = ({ navigation }) => {
+export const Profile = () => {
   const [posts, setPosts] = useState(publications);
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    // код для реєстрації користувача
-    navigation.navigate("Login");
+    console.log('clickLogout')
+    dispatch(authSignOutUser());
   };
 
   return (
