@@ -19,6 +19,9 @@ import {
   Wallpaper,
 } from "../../Components";
 
+import { authSignUpUser } from "../../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
+
 const initialState = {
   avatar: "",
   login: "",
@@ -29,6 +32,8 @@ const initialState = {
 export const Registration = ({ navigation, route }) => {
   const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
+
+  const dispatch = useDispatch();
 
   const keyboardHide = () => {
     setKeyboardStatus(false);
@@ -44,10 +49,14 @@ export const Registration = ({ navigation, route }) => {
 
   const onPress = () => navigation.navigate("Login");
 
-  const handleRegister = () => {
-    // код для реєстрації користувача
-    navigation.navigate("Home");
+  const handleSubmit = () => {
+    setKeyboardStatus(false);
+    dispatch(authSignUpUser(user));
+    setUser(initialState);
   };
+
+  //TODO
+  // при потере фокуса инпуты сбрасываются....
 
   return (
     <KeyboardAvoidingView
@@ -85,14 +94,7 @@ export const Registration = ({ navigation, route }) => {
                 setKeyboardStatus={setKeyboardStatus}
               />
 
-              <Button
-                onPress={() => {
-                  keyboardHide();
-                  console.log(user);
-                  handleRegister();
-                }}
-                buttonText="Зареєструватись"
-              />
+              <Button onPress={handleSubmit()} buttonText="Зареєструватись" />
 
               {!keyboardStatus && (
                 <Link onPress={onPress}>
