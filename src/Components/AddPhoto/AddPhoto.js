@@ -13,6 +13,10 @@ import {
   Text,
 } from "./AddPhoto.styled";
 
+
+
+
+
 export const AddPhoto = ({ photo, setPhoto, setLocation }) => {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [errorMsg, setErrorMsg] = useState(null);
@@ -41,6 +45,8 @@ export const AddPhoto = ({ photo, setPhoto, setLocation }) => {
       [{ text: "Got it" }]
     );
   }
+
+
 
   const takePhoto = async () => {
     console.log('takePhoto')

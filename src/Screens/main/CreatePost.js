@@ -12,6 +12,10 @@ import { Button, ButtonRound, Input } from "../../Components";
 import { AddPhoto } from "../../Components/AddPhoto/AddPhoto";
 import Trash from "../../img/icons/trash";
 
+import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
+
+import db from "../../../firebase/config";
+
 const initialPost = {
   postName: "",
   location: "",
@@ -52,12 +56,26 @@ export const CreatePost = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(photo);
+    const file = await response.blob();
+    const uniquePostId = Date.now().toString();
+
+    const storage = getStorage(db);
+    const postImage = ref(storage, `postImages/${uniquePostId}`);
+
+    const data = await uploadBytes(postImage, file);
+    console.log("🚀 ~ file: CreatePost.js:68 ~ uploadPhotoToServer ~ data:", data)
+    
+  };
+
   const handlePost = (field, value) => {
     setPost((prevState) => ({ ...prevState, [field]: value }));
   };
 
   const submitPost = () => {
     keyboardHide();
+    uploadPhotoToServer();
 
     const locationParts = post.location ? post.location.split(",") : [];
     const region = locationParts[0] ? locationParts[0].trim() : "";
