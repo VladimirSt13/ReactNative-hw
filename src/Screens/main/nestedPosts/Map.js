@@ -4,21 +4,8 @@ import MapView, { Marker } from "react-native-maps";
 
 export const Map = ({ route }) => {
   const { params, postName } = route;
-  console.log(
-    "🚀 ~ file: Map.js:7 ~ Map ~ params, postName:",
-    params,
-    postName
-  );
-  const { location } = params;
-  console.log("🚀 ~ file: Map.js:9 ~ Map ~ location:", location);
-  const { lat, long, region, country } = location;
-  console.log(
-    "🚀 ~ file: Map.js:11 ~ Map ~ lat, long, region, country:",
-    lat,
-    long,
-    region,
-    country
-  );
+
+  const { lat, long, region, country } = params.location;
 
   return (
     <View style={styles.container}>
@@ -28,7 +15,7 @@ export const Map = ({ route }) => {
           latitude: lat,
           longitude: long,
           latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
+          longitudeDelta: 0.06,
         }}
         mapType="standard"
         onMapReady={() => {}}

@@ -4,8 +4,7 @@ import * as SplashScreen from "expo-splash-screen";
 
 import { Provider } from "react-redux";
 import { store } from "./src/redux/store";
-
-import { Main } from "./src/Components/main";
+import { Main } from './src/Components/Main';
 
 SplashScreen.preventAutoHideAsync();
 

@@ -11,18 +11,18 @@ import { PostImage } from "./PostComments.styled";
 import { PostComment } from "./PostComment";
 import { FontAwesome } from "@expo/vector-icons";
 
-export const PostComments = ({ ...props }) => {
-  const [comment, setComment] = useState("");
-  const handleSubmit = () => {
-    console.log(comment);
-    setComment("");
-  };
-  const { post } = props;
-  const comments = post.commentsData;
+export const PostComments = ({
+  comment,
+  setComment,
+  submitComment,
+  ...props
+}) => {
+  // const { post } = props;
+  // const comments = post.commentsData;
 
   return (
     <>
-      <PostImage source={{ uri: post.img }} />
+      {/* <PostImage source={{ uri: post.img }} />
       <FlatList
         data={comments}
         // keyboardDismissMode="on-drag"
@@ -36,7 +36,7 @@ export const PostComments = ({ ...props }) => {
           );
         }}
         keyExtractor={(item) => item.id}
-      />
+      /> */}
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -45,7 +45,7 @@ export const PostComments = ({ ...props }) => {
           value={comment}
           onChangeText={setComment}
         />
-        <TouchableOpacity style={styles.sendButton} onPress={handleSubmit}>
+        <TouchableOpacity style={styles.sendButton} onPress={submitComment}>
           <FontAwesome name="send" size={24} color="#FF6C00" />
         </TouchableOpacity>
       </View>

@@ -8,58 +8,36 @@ import {
   View,
 } from "react-native";
 import { PostComments } from "../../../Components";
+import { useSelector } from "react-redux";
+import { db } from "../../../../firebase/config";
+import { getDoc, doc, addDoc, collection } from "firebase/firestore";
 
-const initialPost = {
-  id: "20",
-  authorPostId: "124",
-  img: "https://spadok.org.ua/images/karpaty-cikavi-fakty.webp",
-  postName: "Forest",
-  location: "Ivano-Frankivs'k Region, Ukraine",
-  comments: "1",
-  commentsData: [
-    {
-      id: "1",
-      authorId: "123",
-      userAvatar: "https://api.multiavatar.com/1.png",
-      author: "name",
-      commentDate: "09 июня, 2020 | 09:14",
-      commentText:
-        "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
-    },
-    {
-      id: "2",
-      authorId: "124",
-      userAvatar: "https://api.multiavatar.com/2.png",
-      author: "name2",
-      commentDate: "09 июня, 2020 | 09:14",
-      commentText:
-        "A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.",
-    },
-    {
-      id: "3",
-      authorId: "123",
-      userAvatar: "https://api.multiavatar.com/3.png",
-      author: "name",
-      commentDate: "09 июня, 2020 | 09:14",
-      commentText: "Thank you! That was very helpful!",
-    },
-    {
-      id: "4",
-      authorId: "123",
-      userAvatar: "https://api.multiavatar.com/4.png",
-      author: "name",
-      commentDate: "09 июня, 2020 | 09:15",
-      commentText: "...!",
-    },
-  ],
-};
-
-export const Comments = ({ post = initialPost }) => {
-  const { params } = useRoute();
-  const navigation = useNavigation();
-  const { photo, id } = params;
-
+export const Comments = ({ route }) => {
+  const { postId } = route.params;
+  const [comment, setComment] = useState("");
   const [keyboardStatus, setKeyboardStatus] = useState(false);
+  const { login } = useSelector((state) => state.auth);
+
+  const submitComment = async () => {
+    try {
+      const docRef = doc(db, "posts", postId);
+      const commentsCollectionRef = collection(docRef, "comments");
+      await addDoc(commentsCollectionRef, {
+        text: comment,
+        author: login,
+        timestamp: new Date(),
+      });
+
+      setComment("");
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: Comments.js:31 ~ createComment ~ error:",
+        error.message
+      );
+    }
+    keyboardHide();
+  };
+
   const keyboardHide = () => {
     setKeyboardStatus(false);
     // setUser(initialState);
@@ -80,7 +58,11 @@ export const Comments = ({ post = initialPost }) => {
             width: "100%",
           }}
         >
-          <PostComments post={post} />
+          <PostComments
+            comment={comment}
+            setComment={setComment}
+            submitComment={submitComment}
+          />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

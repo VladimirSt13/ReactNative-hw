@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import React, { useEffect, useState } from "react";
-
+import { DispatchProp, useSelector } from "react-redux";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -11,10 +11,11 @@ import {
 import { Button, ButtonRound, Input } from "../../Components";
 import { AddPhoto } from "../../Components/AddPhoto/AddPhoto";
 import Trash from "../../img/icons/trash";
+import * as Location from "expo-location";
 
-import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
-
-import db from "../../../firebase/config";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { collection, addDoc, getFirestore } from "firebase/firestore";
+import { db, storage } from "../../../firebase/config";
 
 const initialPost = {
   postName: "",
@@ -31,6 +32,8 @@ export const CreatePost = ({ navigation }) => {
   const [post, setPost] = useState(initialPost);
   const [photo, setPhoto] = useState(null);
   const [location, setLocation] = useState(initialLocation);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const { userId, login } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -42,6 +45,21 @@ export const CreatePost = ({ navigation }) => {
       "keyboardDidHide",
       () => setKeyboardStatus(false)
     );
+
+    (async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+          return;
+        }
+
+        const { coords } = await Location.getCurrentPositionAsync();
+        setLocation(coords);
+      } catch (error) {
+        console.log("🚀 ~ file: CreatePost.js:58 ~ error:", error.message);
+      }
+    })();
 
     return () => {
       setPost(initialPost);
@@ -57,44 +75,74 @@ export const CreatePost = ({ navigation }) => {
   };
 
   const uploadPhotoToServer = async () => {
-    const response = await fetch(photo);
-    const file = await response.blob();
-    const uniquePostId = Date.now().toString();
+    try {
+      const response = await fetch(photo);
+      const file = await response.blob();
+      const uniquePostId = Date.now().toString();
 
-    const storage = getStorage(db);
-    const postImage = ref(storage, `postImages/${uniquePostId}`);
+      const postImage = ref(storage, `postImages/${uniquePostId}`);
 
-    const data = await uploadBytes(postImage, file);
-    console.log("🚀 ~ file: CreatePost.js:68 ~ uploadPhotoToServer ~ data:", data)
-    
+      const data = await uploadBytes(postImage, file);
+
+      const processedPhoto = await getDownloadURL(postImage);
+
+      return processedPhoto;
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: CreatePost.js:92 ~ uploadPhotoToServer ~ error:",
+        error.message
+      );
+    }
+  };
+
+  const uploadPostToDb = async (post) => {
+    try {
+      const createPost = await addDoc(collection(db, "posts"), post);
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: CreatePost.js:105 ~ uploadPostToDb ~ error:",
+        error.message
+      );
+    }
   };
 
   const handlePost = (field, value) => {
     setPost((prevState) => ({ ...prevState, [field]: value }));
   };
 
-  const submitPost = () => {
+  const submitPost = async () => {
     keyboardHide();
-    uploadPhotoToServer();
 
-    const locationParts = post.location ? post.location.split(",") : [];
-    const region = locationParts[0] ? locationParts[0].trim() : "";
-    const country = locationParts[1] ? locationParts[1].trim() : "";
+    try {
+      const photoUrl = await uploadPhotoToServer();
 
-    const formattedPost = {
-      ...post,
-      img: photo,
-      location: {
-        region,
-        country,
-        lat: location?.latitude,
-        long: location?.longitude,
-      },
-      id: nanoid(),
-    };
+      const locationParts = post.location ? post.location.split(",") : [];
+      const region = locationParts[0] ? locationParts[0].trim() : "";
+      const country = locationParts[1] ? locationParts[1].trim() : "";
 
-    resetPost();
-    navigation.navigate("Posts", { formattedPost });
+      const formattedPost = {
+        ...post,
+        img: photoUrl ? photoUrl : "",
+        location: {
+          region,
+          country,
+          lat: location?.latitude,
+          long: location?.longitude,
+        },
+        userId,
+        userLogin: login,
+      };
+
+      await uploadPostToDb(formattedPost);
+
+      resetPost();
+      navigation.navigate("Posts");
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: CreatePost.js:133 ~ submitPost ~ error:",
+        error.message
+      );
+    }
   };
 
   const resetPost = () => {

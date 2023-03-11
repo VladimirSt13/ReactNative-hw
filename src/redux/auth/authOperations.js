@@ -1,17 +1,14 @@
-import db from "../../../firebase/config";
+import { auth } from "../../../firebase/config";
 import { authSlice } from "./authReducer";
-const {authSighOut, updateUserProfile, authStateChange} = authSlice.actions
+const { authSighOut, updateUserProfile, authStateChange } = authSlice.actions;
 
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
-
-const auth = getAuth(db);
 
 export const authSignUpUser =
   ({ login, email, password }) =>
@@ -49,15 +46,13 @@ export const authSignInUser =
   async (dispatch, getState) => {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
-      // console.log("authSignInUser ~ user:", user);
     } catch (error) {
-      console.log("authSignInUser ~ error:", error);
-      console.log("authSignInUser ~ error.message:", error.message);
+      console.log("🚀 ~ file: authOperations.js:51 ~ error:", error);
     }
   };
 
 export const authSignOutUser = () => async (dispatch, getState) => {
-  console.log('authSignOutUser')
+  console.log("authSignOutUser");
   await signOut(auth);
   dispatch(authSighOut());
 };
@@ -72,5 +67,5 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
       dispatch(updateUserProfile(userUpdatedProfile));
       dispatch(authStateChange({ stateChange: true }));
     }
-    });
+  });
 };

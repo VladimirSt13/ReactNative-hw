@@ -1,5 +1,4 @@
 import { Camera, getCameraPermissionsAsync } from "expo-camera";
-import * as Location from "expo-location";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Pressable } from "react-native";
 import PhotoIcon from "../../img/icons/photo";
@@ -13,24 +12,13 @@ import {
   Text,
 } from "./AddPhoto.styled";
 
-
-
-
-
-export const AddPhoto = ({ photo, setPhoto, setLocation }) => {
+export const AddPhoto = ({ photo, setPhoto }) => {
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  const [errorMsg, setErrorMsg] = useState(null);
+
   const cameraRef = useRef();
 
   useEffect(() => {
     requestPermission();
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-    })();
   }, []);
 
   const getPermissions = async () => {
@@ -46,10 +34,7 @@ export const AddPhoto = ({ photo, setPhoto, setLocation }) => {
     );
   }
 
-
-
   const takePhoto = async () => {
-    console.log('takePhoto')
     if (!cameraRef.current) {
       return console.error("🚀 Camera error");
     }
@@ -57,9 +42,6 @@ export const AddPhoto = ({ photo, setPhoto, setLocation }) => {
     try {
       const photo = await cameraRef?.current.takePictureAsync();
       setPhoto(photo.uri);
-      const location = await Location.getCurrentPositionAsync({});
-      setLocation(location.coords);
-
     } catch (error) {
       console.log(
         "🚀 ~ file: AddPhoto.js:56 ~ takePhoto ~ error:",

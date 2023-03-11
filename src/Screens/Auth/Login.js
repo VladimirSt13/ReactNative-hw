@@ -17,6 +17,7 @@ import { authSignInUser } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
 
 const initialState = {
+  login: "",
   email: "",
   password: "",
 };

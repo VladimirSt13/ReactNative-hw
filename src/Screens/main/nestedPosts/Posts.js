@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { Post } from "../../../Components";
 
+import { collection, onSnapshot } from "firebase/firestore";
+
+import { db } from "../../../../firebase/config";
+
 import avatar from "../../../img/Home/avatar.jpg";
 
 // const publications = require("../../../publications.json");
@@ -10,11 +14,26 @@ const publications = [];
 export const Posts = ({ route }) => {
   const [posts, setPosts] = useState(publications);
 
-  useEffect(() => {
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params.formattedPost]);
+  const getAllPosts = async () => {
+    try {
+      onSnapshot(collection(db, "posts"), (querySnapshot) => {
+        const posts = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPosts(posts);
+      });
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: Posts.js:38 ~ getAllPosts ~ error:",
+        error.message
+      );
     }
-  }, [route.params]);
+  };
+
+  useEffect(() => {
+    getAllPosts();
+  }, []);
 
   return (
     <View style={styles.container}>

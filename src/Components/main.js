@@ -8,7 +8,6 @@ export const Main = () => {
   const dispatch = useDispatch();
 
   const { stateChange } = useSelector((state) => state.auth);
-  console.log("🚀 ~ file: main.js:11 ~ Main ~ stateChange:", stateChange);
 
   useEffect(() => {
     dispatch(authStateChangeUser());

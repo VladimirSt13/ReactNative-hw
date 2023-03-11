@@ -21,7 +21,7 @@ export const Post = ({ item }) => {
   };
 
   const gotToComments = () => {
-    navigation.navigate("Comments", { img, id });
+    navigation.navigate("Comments", { postImg: img, postId: id });
   };
 
   return (
