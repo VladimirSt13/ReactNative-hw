@@ -79,7 +79,7 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
       const userUpdatedProfile = {
         login: user.displayName,
         email: user.email,
-        avatar: user.avata,
+        avatar: user.photoURL,
         userId: user.uid,
       };
       dispatch(updateUserProfile(userUpdatedProfile));

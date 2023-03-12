@@ -27,6 +27,7 @@ export const Posts = () => {
           setPosts(posts);
         }
       );
+      console.log(posts);
       return unsubscribe;
     } catch (error) {
       console.log(error.message);

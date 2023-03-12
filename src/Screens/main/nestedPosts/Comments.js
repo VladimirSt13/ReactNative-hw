@@ -1,4 +1,10 @@
-import { addDoc, collection, doc, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
   Keyboard,
@@ -34,7 +40,7 @@ export const Comments = ({ route }) => {
         author: login,
         timestamp: new Date(),
       });
-
+      await updateDoc(docRef, { comments: allComments.length + 1 });
       setComment("");
     } catch (error) {
       console.log(
