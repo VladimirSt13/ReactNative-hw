@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import React, { useEffect, useState } from "react";
-import { DispatchProp, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   Keyboard,
   KeyboardAvoidingView,

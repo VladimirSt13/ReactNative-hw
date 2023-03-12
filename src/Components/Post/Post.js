@@ -20,7 +20,7 @@ export const Post = ({ item }) => {
     navigation.navigate("Map", { postName, location });
   };
 
-  const gotToComments = () => {
+  const goToComments = () => {
     navigation.navigate("Comments", { postImg: img, postId: id });
   };
 
@@ -31,7 +31,7 @@ export const Post = ({ item }) => {
       <PostTitle>{postName}</PostTitle>
 
       <ActionsContainer>
-        <PressableContainer onPress={gotToComments}>
+        <PressableContainer onPress={goToComments}>
           <Ionicons
             name="chatbubble-outline"
             size={18}

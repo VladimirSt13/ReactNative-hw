@@ -72,8 +72,6 @@ export const Registration = ({ navigation, route }) => {
     Keyboard.dismiss();
   };
 
-  //TODO при потерb фокуса инпуты сбрасываются....
-
   return (
     <KeyboardAvoidingView
       style={styles.container}

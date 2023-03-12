@@ -22,7 +22,6 @@ export const authSignUpUser =
 
       await updateProfile(auth.currentUser, {
         displayName: login,
-        //TODO add user's avatar
       });
 
       const { displayName, uid } = auth.currentUser;

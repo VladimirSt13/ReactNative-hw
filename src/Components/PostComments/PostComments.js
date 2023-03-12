@@ -15,6 +15,7 @@ export const PostComments = ({
   comment,
   setComment,
   submitComment,
+  allComments,
   ...props
 }) => {
   // const { post } = props;
@@ -22,21 +23,23 @@ export const PostComments = ({
 
   return (
     <>
-      {/* <PostImage source={{ uri: post.img }} />
-      <FlatList
-        data={comments}
-        // keyboardDismissMode="on-drag"
-        style={{ zIndex: 5 }}
-        renderItem={({ item }) => {
-          return (
-            <PostComment
-              isAuthor={post.authorPostId === item.authorId}
-              comment={item}
-            />
-          );
-        }}
-        keyExtractor={(item) => item.id}
-      /> */}
+      {/* <PostImage source={{ uri: post.img }} /> */}
+      {allComments && (
+        <FlatList
+          data={allComments}
+          // keyboardDismissMode="on-drag"
+          style={{ zIndex: 5 }}
+          renderItem={({ item }) => {
+            return (
+              <PostComment
+                // isAuthor={post.authorPostId === item.authorId}
+                comment={item}
+              />
+            );
+          }}
+          keyExtractor={(item) => item.id}
+        />
+      )}
 
       <View style={styles.inputContainer}>
         <TextInput

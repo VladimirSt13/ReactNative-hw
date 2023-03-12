@@ -11,28 +11,31 @@ import avatar from "../../../img/Home/avatar.jpg";
 // const publications = require("../../../publications.json");
 const publications = [];
 
-export const Posts = ({ route }) => {
+export const Posts = () => {
   const [posts, setPosts] = useState(publications);
 
-  const getAllPosts = async () => {
+  const getAllPosts = () => {
     try {
-      onSnapshot(collection(db, "posts"), (querySnapshot) => {
-        const posts = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setPosts(posts);
-      });
-    } catch (error) {
-      console.log(
-        "🚀 ~ file: Posts.js:38 ~ getAllPosts ~ error:",
-        error.message
+      const unsubscribe = onSnapshot(
+        collection(db, "posts"),
+        (querySnapshot) => {
+          const posts = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setPosts(posts);
+        }
       );
+      return unsubscribe;
+    } catch (error) {
+      console.log(error.message);
+      return () => {};
     }
   };
 
   useEffect(() => {
-    getAllPosts();
+    const unsubscribe = getAllPosts();
+    return () => unsubscribe();
   }, []);
 
   return (

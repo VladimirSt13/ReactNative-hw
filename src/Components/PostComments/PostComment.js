@@ -13,6 +13,8 @@ const authorAvatar = require("../../img/Home/avatar.jpg");
 export const PostComment = ({ comment, isAuthor }) => {
   const { userAvatar } = comment;
 
+  console.log(comment);
+
   const renderAvatar = () => {
     let avatar = null;
 
@@ -30,8 +32,10 @@ export const PostComment = ({ comment, isAuthor }) => {
       <View style={isAuthor ? styles.commentLeft : styles.commentRight}>
         {!isAuthor && renderAvatar()}
         <CommentTextContainer isAuthor={isAuthor}>
-          <CommentText>{comment.commentText}</CommentText>
-          <CommentDate isAuthor={isAuthor}>{comment.commentDate}</CommentDate>
+          <CommentText>{comment.text}</CommentText>
+          <CommentDate isAuthor={isAuthor}>
+            {comment.formattedDate} | {comment.formattedTime}
+          </CommentDate>
         </CommentTextContainer>
         {isAuthor && renderAvatar()}
       </View>

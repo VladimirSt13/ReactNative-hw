@@ -1,5 +1,4 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -10,13 +9,20 @@ import {
 import { PostComments } from "../../../Components";
 import { useSelector } from "react-redux";
 import { db } from "../../../../firebase/config";
-import { getDoc, doc, addDoc, collection } from "firebase/firestore";
+import { doc, addDoc, collection, onSnapshot } from "firebase/firestore";
 
 export const Comments = ({ route }) => {
   const { postId } = route.params;
   const [comment, setComment] = useState("");
+  const [allComments, setAllComments] = useState([]);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
   const { login } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const unsubscribe = getAllComments();
+
+    return () => unsubscribe();
+  }, []);
 
   const submitComment = async () => {
     try {
@@ -38,9 +44,34 @@ export const Comments = ({ route }) => {
     keyboardHide();
   };
 
+  const getAllComments = () => {
+    try {
+      const docRef = doc(db, "posts", postId);
+      const commentsCollectionRef = collection(docRef, "comments");
+      const unsubscribe = onSnapshot(commentsCollectionRef, (querySnapshot) => {
+        const allComments = querySnapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            timestamp: doc.data().timestamp.toDate(), // Convert timestamp to Date object
+            formattedDate: doc.data().timestamp.toDate().toLocaleDateString(), // Format date as string
+            formattedTime: doc.data().timestamp.toDate().toLocaleTimeString(),
+          }))
+          .sort((a, b) => a.timestamp - b.timestamp);
+        setAllComments(allComments);
+      });
+      return unsubscribe;
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: Comments.js:31 ~ createComment ~ error:",
+        error.message
+      );
+      return () => {};
+    }
+  };
+
   const keyboardHide = () => {
     setKeyboardStatus(false);
-    // setUser(initialState);
     Keyboard.dismiss();
   };
 
@@ -62,6 +93,7 @@ export const Comments = ({ route }) => {
             comment={comment}
             setComment={setComment}
             submitComment={submitComment}
+            allComments={allComments}
           />
         </View>
       </TouchableWithoutFeedback>
