@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 
 export const authSignUpUser =
-  ({ login, email, password }) =>
+  ({ login, email, password, avatar }) =>
   async (dispatch, getState) => {
     try {
       const { user } = await createUserWithEmailAndPassword(
@@ -22,18 +22,19 @@ export const authSignUpUser =
 
       await updateProfile(auth.currentUser, {
         displayName: login,
+        photoURL: avatar ? avatar : `https://api.multiavatar.com/${email}.png`,
       });
 
-      const { displayName, uid } = auth.currentUser;
+      const { displayName, uid, photoURL } = auth.currentUser;
 
       const userUpdatedProfile = {
-        login: displayName,
         userId: uid,
+        login: displayName,
+        email,
+        avatar: photoURL,
       };
 
       dispatch(authSlice.actions.updateUserProfile(userUpdatedProfile));
-
-      console.log(" authSignUpUser ~ user:", user);
     } catch (error) {
       console.log("authSignUpUser ~ error:", error);
       console.log("authSignUpUser ~ error.message:", error.message);
@@ -45,15 +46,31 @@ export const authSignInUser =
   async (dispatch, getState) => {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
+      const { displayName, uid, photoURL } = auth.currentUser;
+
+      const userUpdatedProfile = {
+        userId: uid,
+        login: displayName,
+        email,
+        avatar: photoURL,
+      };
+
+      dispatch(authSlice.actions.updateUserProfile(userUpdatedProfile));
     } catch (error) {
       console.log("🚀 ~ file: authOperations.js:51 ~ error:", error);
     }
   };
 
 export const authSignOutUser = () => async (dispatch, getState) => {
-  console.log("authSignOutUser");
-  await signOut(auth);
-  dispatch(authSighOut());
+  try {
+    await signOut(auth);
+    dispatch(authSighOut());
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: authOperations.js:70 ~ authSignOutUser ~ error:",
+      error.message
+    );
+  }
 };
 
 export const authStateChangeUser = () => async (dispatch, getState) => {
@@ -61,6 +78,8 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
     if (user) {
       const userUpdatedProfile = {
         login: user.displayName,
+        email: user.email,
+        avatar: user.avata,
         userId: user.uid,
       };
       dispatch(updateUserProfile(userUpdatedProfile));

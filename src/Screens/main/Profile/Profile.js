@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 
 import photoBG from "../../../img/Photo-BG.jpg";
@@ -13,20 +13,24 @@ import {
 } from "../../../Components";
 import LogOutIcon from "../../../img/icons/logOut.svg";
 
-import publications from "../../../publications.json";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
-import { authSignOutUser } from "../../../redux/auth/authOperations";
 import { db } from "../../../../firebase/config";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import publications from "../../../publications.json";
+import { authSignOutUser } from "../../../redux/auth/authOperations";
+import { getUser } from "../../../redux/auth/authSelectors";
 
 export const Profile = () => {
   const [posts, setPosts] = useState(publications);
-  const { userId } = useSelector((state) => state.auth);
+  const user = useSelector(getUser);
   const dispatch = useDispatch();
 
   const getUserPosts = () => {
     try {
-      const q = query(collection(db, "posts"), where("userId", "==", userId));
+      const q = query(
+        collection(db, "posts"),
+        where("userId", "==", user.userId)
+      );
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         setPosts(
           querySnapshot.docs.map((doc) => ({
@@ -58,7 +62,7 @@ export const Profile = () => {
   return (
     <Wallpaper image={photoBG}>
       <ProfileContainer style={{ marginTop: 148 }}>
-        <Avatar />
+        <Avatar avatar={user.avatar} />
         <ButtonIcon
           style={{ position: "absolute", right: 0, top: 22 }}
           onPress={handleLogout}
@@ -67,7 +71,7 @@ export const Profile = () => {
           size={24}
         />
         <View style={{ marginTop: 92 }}>
-          <UserName>Natali Romanova</UserName>
+          <UserName>{user.login}</UserName>
         </View>
         <FlatList
           style={{ marginTop: 32 }}

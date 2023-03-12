@@ -3,8 +3,8 @@ import { Button, Container, AvatarImage } from "./Avatar.styled";
 import { loadImage } from "./../helpers/loadImage";
 import { Ionicons } from "@expo/vector-icons";
 
-export const Avatar = (props) => {
-  const [avatar, setAvatar] = useState(null);
+export const Avatar = ({ avatar: userAvatar }) => {
+  const [avatar, setAvatar] = useState(userAvatar);
 
   const handleLoadAvatar = () => {
     loadImage(setAvatar);

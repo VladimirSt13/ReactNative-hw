@@ -5,14 +5,7 @@ Text;
 
 const PostsStack = createStackNavigator();
 
-export const PostsHome = ({ route }) => {
-  // const { params } = useRoute();
-  // const navigation = useNavigation();
-
-  // useEffect(() => {
-  //   navigation.navigate("Posts");
-  // }, [params]);
-
+export const PostsHome = () => {
   return (
     <PostsStack.Navigator
       initialRouteName="Posts"

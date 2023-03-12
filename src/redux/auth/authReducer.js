@@ -8,25 +8,23 @@ const initialState = {
   stateChange: false,
 };
 
-const actions = {
-  updateUserProfile: (state, { payload }) => ({
-    ...state,
-    userId: payload.userId,
-    login: payload.login,
-    email: payload.email,
-    avatar: payload.avatar,
-  }),
-
-  authStateChange: (state, { payload }) => ({
-    ...state,
-    stateChange: payload.stateChange,
-  }),
-
-  authSighOut: () => initialState,
-};
-
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: actions,
+  reducers: {
+    updateUserProfile: (state, { payload }) => ({
+      ...state,
+      userId: payload.userId,
+      login: payload.login,
+      email: payload.email,
+      avatar: payload.avatar,
+    }),
+
+    authStateChange: (state, { payload }) => ({
+      ...state,
+      stateChange: payload.stateChange,
+    }),
+
+    authSighOut: () => initialState,
+  },
 });

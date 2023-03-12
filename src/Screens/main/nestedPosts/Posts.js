@@ -6,13 +6,14 @@ import { collection, onSnapshot } from "firebase/firestore";
 
 import { db } from "../../../../firebase/config";
 
-import avatar from "../../../img/Home/avatar.jpg";
+import { useSelector } from "react-redux";
+import { getUser } from "./../../../redux/auth/authSelectors";
 
-// const publications = require("../../../publications.json");
 const publications = [];
 
 export const Posts = () => {
   const [posts, setPosts] = useState(publications);
+  const user = useSelector(getUser);
 
   const getAllPosts = () => {
     try {
@@ -41,10 +42,10 @@ export const Posts = () => {
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>
-        <Image source={avatar} style={styles.userAvatar} />
+        <Image source={{ uri: user.avatar }} style={styles.userAvatar} />
         <View>
-          <Text style={styles.userName}>Natali Romanova</Text>
-          <Text style={styles.userEmail}>email@example.com</Text>
+          <Text style={styles.userName}>{user.login}</Text>
+          <Text style={styles.userEmail}>{user.email}</Text>
         </View>
       </View>
       <FlatList
@@ -74,6 +75,7 @@ const styles = StyleSheet.create({
   userAvatar: {
     width: 60,
     height: 60,
+
     borderRadius: 16,
     backgroundColor: "#BDBDBD",
     marginRight: 8,

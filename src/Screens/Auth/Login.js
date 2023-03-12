@@ -17,7 +17,6 @@ import { authSignInUser } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
 
 const initialState = {
-  login: "",
   email: "",
   password: "",
 };
@@ -25,6 +24,7 @@ const initialState = {
 export const Login = ({ navigation, route }) => {
   const [user, setUser] = useState(initialState);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -43,8 +43,6 @@ export const Login = ({ navigation, route }) => {
     };
   }, []);
 
-  const dispatch = useDispatch();
-
   const keyboardHide = () => {
     setKeyboardStatus(false);
     Keyboard.dismiss();
@@ -59,10 +57,10 @@ export const Login = ({ navigation, route }) => {
   const onPress = () => navigation.navigate("Registration");
 
   const handleSubmit = () => {
+    Keyboard.dismiss();
     setKeyboardStatus(false);
     dispatch(authSignInUser(user));
     setUser(initialState);
-    Keyboard.dismiss();
   };
 
   return (

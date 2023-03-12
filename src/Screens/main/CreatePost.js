@@ -1,6 +1,5 @@
-import { nanoid } from "nanoid";
+import * as Location from "expo-location";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -8,14 +7,15 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { useSelector } from "react-redux";
 import { Button, ButtonRound, Input } from "../../Components";
 import { AddPhoto } from "../../Components/AddPhoto/AddPhoto";
 import Trash from "../../img/icons/trash";
-import * as Location from "expo-location";
 
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import { collection, addDoc, getFirestore } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../../../firebase/config";
+import { getUser } from "./../../redux/auth/authSelectors";
 
 const initialPost = {
   postName: "",
@@ -33,7 +33,7 @@ export const CreatePost = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [location, setLocation] = useState(initialLocation);
   const [errorMsg, setErrorMsg] = useState(null);
-  const { userId, login } = useSelector((state) => state.auth);
+  const { userId, login } = useSelector(getUser);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(

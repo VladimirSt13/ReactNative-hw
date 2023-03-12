@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { addDoc, collection, doc, onSnapshot } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -6,17 +7,17 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { PostComments } from "../../../Components";
 import { useSelector } from "react-redux";
 import { db } from "../../../../firebase/config";
-import { doc, addDoc, collection, onSnapshot } from "firebase/firestore";
+import { PostComments } from "../../../Components";
+import { getUser } from "../../../redux/auth/authSelectors";
 
 export const Comments = ({ route }) => {
-  const { postId } = route.params;
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
-  const { login } = useSelector((state) => state.auth);
+  const { postId } = route.params;
+  const { login } = useSelector(getUser);
 
   useEffect(() => {
     const unsubscribe = getAllComments();
